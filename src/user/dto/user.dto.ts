@@ -44,3 +44,17 @@ export class UserDto {
 }
 
 export type UpdateUserDto = Partial<UserDto>;
+
+export class DeleteUserDto {
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+
+    @IsString()
+    @IsNotEmpty()
+    uin: string;
+
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+}
