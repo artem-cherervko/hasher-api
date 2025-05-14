@@ -49,4 +49,12 @@ export class RedisService {
 			);
 		}
 	}
+
+	async getAll(prefix: string | null) {
+		if (!prefix) {
+			return this.redisService.keys('*');
+		} else {
+			return this.redisService.keys(prefix);
+		}
+	}
 }
