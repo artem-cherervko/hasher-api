@@ -1,6 +1,7 @@
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	HttpException,
 	HttpStatus,
@@ -9,7 +10,7 @@ import {
 	Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AddUserDto, UpdateUserDto } from './dto/user.dto';
+import { AddUserDto, DeleteUserDto, UpdateUserDto } from './dto/user.dto';
 import * as argon2 from 'argon2';
 
 @Controller('user')
@@ -61,12 +62,12 @@ export class UserController {
 		if (!user) {
 			throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 		} else {
-			const password_verify = await argon2.verify(data.password, user.password);
+			const password_verify = await argon2.verify(user.password, data.password);
 			if (!password_verify)
 				throw new HttpException('Password not valid!', HttpStatus.BAD_REQUEST);
 			else {
 				try {
-					await this.userService.updateUser(user_data, data.uin);
+					return await this.userService.updateUser(user_data, data.uin);
 				} catch (e) {
 					throw new HttpException(
 						`An error occurred while updating user: ${e}`,
@@ -74,6 +75,15 @@ export class UserController {
 					);
 				}
 			}
+		}
+	}
+
+	@Delete('deleteUser')
+	async deleteUser(user_to_delete: DeleteUserDto) {
+		try {
+			await this.userService.deleteUser(user_to_delete);
+		} catch (e) {
+			throw new HttpException(`Error: ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

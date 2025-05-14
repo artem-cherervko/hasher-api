@@ -11,10 +11,14 @@ export class UserService {
 		try {
 			await this.prisma.user.create({
 				data: {
-					uin: String(uinGenerator()),
+					uin: String(await uinGenerator()),
 					...user,
 				},
 			});
+			return {
+				status: HttpStatus.CREATED,
+				response: 'Added successfully',
+			};
 		} catch (e) {
 			throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
 		}
@@ -54,14 +58,18 @@ export class UserService {
 
 	async updateUser(user: UpdateUserDto, uin: string) {
 		try {
+			// Удаляем password, если он пришёл вручную
+			const { password, ...safeData } = user as Record<string, any>;
+
 			await this.prisma.user.update({
-				where: {
-					uin: uin,
-				},
-				data: {
-					...user,
-				},
+				where: { uin },
+				data: safeData,
 			});
+
+			return {
+				status: HttpStatus.OK,
+				response: 'Updated successfully',
+			};
 		} catch (e) {
 			throw new HttpException(
 				`An error occurred while updating user: ${e}`,
