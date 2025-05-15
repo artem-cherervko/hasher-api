@@ -1,5 +1,4 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { Role } from '../../../generated/prisma/index';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class NewMessageDTO {
 	@IsEmail()
@@ -13,10 +12,6 @@ export class NewMessageDTO {
 	@IsString()
 	@IsNotEmpty()
 	sender_uin: string;
-
-	@IsEnum(Role)
-	@IsNotEmpty()
-	user_role: Role;
 }
 
 export class OAuthDTO {

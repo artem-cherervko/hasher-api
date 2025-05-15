@@ -1,4 +1,5 @@
 import {
+	ConnectedSocket,
 	OnGatewayConnection,
 	OnGatewayDisconnect,
 	OnGatewayInit,
@@ -10,6 +11,10 @@ import { Server, Socket } from 'socket.io';
 import { ChatsService } from './chats.service';
 import { RedisService } from '../redis/redis.service';
 import { EmailService } from '../email/email.service';
+import { Body, HttpException, HttpStatus } from '@nestjs/common';
+import { NewMessageDTO } from './dto/chats.dto';
+import { UserService } from '../user/user.service';
+import { getDate } from '../configs/dayjs';
 
 @WebSocketGateway({
 	cors: {
@@ -23,6 +28,7 @@ export class ChatsGateway
 		private readonly chatsService: ChatsService,
 		private readonly redis: RedisService,
 		private readonly email: EmailService,
+		private readonly userService: UserService,
 	) {}
 
 	@WebSocketServer()
@@ -62,6 +68,52 @@ export class ChatsGateway
 		}
 	}
 
-	@SubscribeMessage('chats')
-	async chatsMessages() {}
+	@SubscribeMessage('chat')
+	async chatsMessages(
+		@Body() data: NewMessageDTO,
+		@ConnectedSocket() client: Socket,
+	) {
+		const uin = client.handshake.query?.uin as string;
+		const user_online = await this.redis.getKey(`chats:${uin}`);
+
+		try {
+			const user = await this.userService.findUserByUIN(uin);
+			const receiver = await this.userService.findUserByUIN(data.receiver_uin);
+			if (!user || !receiver) {
+				client.emit('Sender uin or receiver uin not found');
+				client.disconnect();
+			} else {
+				if (!user_online) {
+					await this.email.sendNewMessage({
+						sender_uin: uin,
+						sender_name: user.name,
+						email: String(receiver?.email),
+					});
+
+					client.emit('message', { status: HttpStatus.OK, message: 'sent' });
+
+					return await this.chatsService.addMessage({
+						sender_uin: uin,
+						receiver_uin: data.receiver_uin,
+						message: data.message,
+					});
+				} else {
+					this.server.to(user_online.data).emit('message', {
+						status: HttpStatus.OK,
+						sender: uin,
+						message: data.message,
+						time: await getDate(),
+					});
+
+					return await this.chatsService.addMessage({
+						sender_uin: uin,
+						receiver_uin: data.receiver_uin,
+						message: data.message,
+					});
+				}
+			}
+		} catch (e) {
+			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
