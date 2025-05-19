@@ -69,3 +69,13 @@ export class DeleteUserDto {
 	@IsNotEmpty()
 	password: string;
 }
+
+export class UpdateUserStatusDTO {
+	@IsString()
+	@IsNotEmpty()
+	uin: string;
+
+	@IsString()
+	@IsOptional()
+	last_seen?: string;
+}

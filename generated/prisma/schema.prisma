@@ -9,13 +9,17 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(uuid(4))
-  name      String
-  uin       String  @unique
-  user_name String? @unique
-  photo_url String  @default("d")
-  email     String  @unique
-  password  String
+  id            String  @id @default(uuid(4))
+  name          String
+  uin           String  @unique
+  user_name     String? @unique
+  photo_url     String  @default("d")
+  email         String  @unique
+  password      String
+  refresh_token String  @default("")
+
+  isOnline  Boolean @default(false)
+  last_seen String  @default("")
 
   role Role @default(user)
 
@@ -25,8 +29,8 @@ model User {
   sended_messages   Message[] @relation("SendedBy")
   received_messages Message[] @relation("ReceivedBy")
 
-  sended_chats   Chat[] @relation("FirstUser")
-  received_chats Chat[] @relation("SecondUser")
+  my_chats       Chat[] @relation("ChatUserOne")
+  received_chats Chat[] @relation("ChatUserTwo")
 
   @@map("user")
 }
@@ -34,14 +38,16 @@ model User {
 model Chat {
   id String @id @default(cuid(2))
 
-  first_user    User   @relation("FirstUser", fields: [first_user_id], references: [id])
-  first_user_id String
+  chat_user_one    User   @relation("ChatUserOne", fields: [chat_user_one_id], references: [id])
+  chat_user_one_id String
 
-  second_user    User   @relation("SecondUser", fields: [second_user_id], references: [id])
-  second_user_id String
+  chat_user_two    User   @relation("ChatUserTwo", fields: [chat_user_two_id], references: [id])
+  chat_user_two_id String
 
   messages   Message[] @relation("MessagesToChat")
   created_at DateTime  @default(now())
+
+  @@map("chat")
 }
 
 model Message {

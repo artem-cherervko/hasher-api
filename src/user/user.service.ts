@@ -1,24 +1,27 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { AddUserDto, DeleteUserDto, UpdateUserDto } from './dto/user.dto';
+import {
+	AddUserDto,
+	DeleteUserDto,
+	UpdateUserDto,
+	UpdateUserStatusDTO,
+} from './dto/user.dto';
 import { uinGenerator } from './generators/uin.generator';
+import { getDate } from '../configs/dayjs';
+import { User } from '../../generated/prisma/index';
 
 @Injectable()
 export class UserService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async addUser(user: AddUserDto) {
+	async addUser(data: AddUserDto): Promise<User> {
 		try {
-			await this.prisma.user.create({
+			return await this.prisma.user.create({
 				data: {
 					uin: String(await uinGenerator()),
-					...user,
+					...data,
 				},
 			});
-			return {
-				status: HttpStatus.CREATED,
-				response: 'Added successfully',
-			};
 		} catch (e) {
 			throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
 		}
@@ -58,7 +61,6 @@ export class UserService {
 
 	async updateUser(user: UpdateUserDto, uin: string) {
 		try {
-			// Удаляем password, если он пришёл вручную
 			const { password, ...safeData } = user as Record<string, any>;
 
 			await this.prisma.user.update({
@@ -85,7 +87,7 @@ export class UserService {
 					email: userDto.email,
 				},
 				include: {
-					sended_chats: true,
+					my_chats: true,
 					received_chats: true,
 					sended_messages: true,
 					received_messages: true,
@@ -100,7 +102,7 @@ export class UserService {
 						email: userDto.email,
 					},
 					include: {
-						sended_chats: true,
+						my_chats: true,
 						received_chats: true,
 						sended_messages: true,
 						received_messages: true,
@@ -109,6 +111,53 @@ export class UserService {
 			}
 		} catch (e) {
 			throw new HttpException(e, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	async updateOnlineStatus(data: UpdateUserStatusDTO) {
+		try {
+			const user = await this.prisma.user.findUnique({
+				where: { uin: data.uin },
+			});
+
+			if (!user) {
+				return new HttpException('User not found', HttpStatus.NOT_FOUND);
+			} else {
+				const date = await getDate();
+
+				if (user.isOnline === true) {
+					await this.prisma.user.update({
+						where: {
+							uin: data.uin,
+						},
+						data: {
+							isOnline: false,
+							last_seen: date,
+						},
+					});
+
+					return {
+						status: HttpStatus.OK,
+						response: 'Updated successfully',
+					};
+				} else {
+					await this.prisma.user.update({
+						where: {
+							uin: data.uin,
+						},
+						data: {
+							isOnline: true,
+							last_seen: date,
+						},
+					});
+					return {
+						status: HttpStatus.OK,
+						response: 'Updated successfully',
+					};
+				}
+			}
+		} catch (e) {
+			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

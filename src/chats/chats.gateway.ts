@@ -16,7 +16,7 @@ import { NewMessageDTO } from './dto/chats.dto';
 import { UserService } from '../user/user.service';
 import { getDate } from '../configs/dayjs';
 
-@WebSocketGateway({
+@WebSocketGateway(3002, {
 	cors: {
 		origin: '*',
 	},
@@ -37,6 +37,7 @@ export class ChatsGateway
 	async afterInit() {
 		const keys = await this.redis.getAll('chats:*');
 		for (const key of keys) {
+			await this.userService.updateOnlineStatus({ uin: key.split(':')[1] });
 			await this.redis.delete(key);
 		}
 		console.log('[WS] Redis cleaned: chats:*');
@@ -51,8 +52,25 @@ export class ChatsGateway
 			return;
 		}
 
-		await this.redis.add(`chats:${uin}`, client.id);
-		console.log(`[WS] Client connected: uin=${uin}, socket=${client.id}`);
+		const user = await this.userService.findUserByUIN(uin);
+		if (!user) {
+			console.warn('[WS] UIN not walid. Disconnecting client.');
+			client.disconnect();
+			return;
+		} else {
+			if (user.isBlocked) {
+				client.emit('message', {
+					message: 'You are blocked',
+				});
+				client.disconnect();
+			}
+
+			await this.userService.updateOnlineStatus({
+				uin: uin,
+			});
+			await this.redis.add(`chats:${uin}`, client.id);
+			console.log(`[WS] Client connected: uin=${uin}, socket=${client.id}`);
+		}
 	}
 
 	async handleDisconnect(client: Socket) {
@@ -60,7 +78,12 @@ export class ChatsGateway
 
 		for (const key of keys) {
 			const result = await this.redis.getKey(key);
+
 			if (result.status === 200 && result.data === client.id) {
+				await this.userService.updateOnlineStatus({
+					uin: key.split(':')[1],
+				});
+
 				await this.redis.delete(key);
 				console.log(`[WS] Client disconnected: removed key ${key}`);
 				break;
@@ -73,17 +96,19 @@ export class ChatsGateway
 		@Body() data: NewMessageDTO,
 		@ConnectedSocket() client: Socket,
 	) {
-		const uin = client.handshake.query?.uin as string;
-		const user_online = await this.redis.getKey(`chats:${uin}`);
-
 		try {
+			const uin = client.handshake.query?.uin as string;
+
 			const user = await this.userService.findUserByUIN(uin);
 			const receiver = await this.userService.findUserByUIN(data.receiver_uin);
 			if (!user || !receiver) {
 				client.emit('Sender uin or receiver uin not found');
 				client.disconnect();
 			} else {
-				if (!user_online) {
+				const user_online = await this.redis.getKey(
+					`chats:${data.receiver_uin}`,
+				);
+				if (user_online.data === 'null') {
 					await this.email.sendNewMessage({
 						sender_uin: uin,
 						sender_name: user.name,

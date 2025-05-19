@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 export async function getDate() {
-	return dayjs().locale('uk').format('YYYY-MM-DD HH:mm:ss');
+	return dayjs().locale('uk').format('YYYY-MM-DD HH:mm:ss').toString();
 }

@@ -8,25 +8,59 @@ import {
 	Patch,
 	Post,
 	Query,
+	Res,
+	UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AddUserDto, DeleteUserDto, UpdateUserDto } from './dto/user.dto';
+import { Response } from 'express';
 import * as argon2 from 'argon2';
+import { AuthService } from '../auth/auth.service';
+import { JwtAuthGuard } from '../auth/guards/jwt.auth';
 
 @Controller('user')
 export class UserController {
-	constructor(private readonly userService: UserService) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly authService: AuthService,
+	) {}
 
 	@Post('add')
-	async addUser(@Body() user: AddUserDto) {
+	async addUser(
+		@Body() user: AddUserDto,
+		@Res({ passthrough: true }) res: Response,
+	) {
 		try {
 			user.password = await argon2.hash(user.password);
-			return await this.userService.addUser(user);
+			const createdUser = await this.userService.addUser(user);
+			const { accessToken, refreshToken } =
+				await this.authService.generateTokens(createdUser.uin);
+
+			res.cookie('access_token', accessToken, {
+				httpOnly: true,
+				secure: true,
+				sameSite: 'strict',
+				maxAge: 1000 * 60 * 15,
+			});
+
+			res.cookie('refresh_token', refreshToken, {
+				httpOnly: true,
+				secure: true,
+				sameSite: 'strict',
+				maxAge: 1000 * 60 * 60 * 24 * 7,
+			});
+
+			return {
+				status: HttpStatus.OK,
+				message: 'User created and tokens issued.',
+				user: { uin: createdUser.uin, user_name: createdUser.user_name },
+			};
 		} catch (e) {
-			throw new HttpException(e, HttpStatus.BAD_REQUEST);
+			throw new HttpException(e.message || e, HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get('getUser')
 	async getUser(
 		@Query() data: { uin: string | null; user_name: string | null },
@@ -53,6 +87,7 @@ export class UserController {
 		}
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Patch('updateUser')
 	async updateUser(
 		@Body() user_data: UpdateUserDto,
@@ -78,6 +113,7 @@ export class UserController {
 		}
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Delete('deleteUser')
 	async deleteUser(user_to_delete: DeleteUserDto) {
 		try {

@@ -260,8 +260,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.7.0
-   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+   * Prisma Client JS version: 6.8.2
+   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
    */
   export type PrismaVersion = {
     client: string
@@ -1072,14 +1072,14 @@ export namespace Prisma {
   export type UserCountOutputType = {
     sended_messages: number
     received_messages: number
-    sended_chats: number
+    my_chats: number
     received_chats: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sended_messages?: boolean | UserCountOutputTypeCountSended_messagesArgs
     received_messages?: boolean | UserCountOutputTypeCountReceived_messagesArgs
-    sended_chats?: boolean | UserCountOutputTypeCountSended_chatsArgs
+    my_chats?: boolean | UserCountOutputTypeCountMy_chatsArgs
     received_chats?: boolean | UserCountOutputTypeCountReceived_chatsArgs
   }
 
@@ -1111,7 +1111,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSended_chatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountMy_chatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatWhereInput
   }
 
@@ -1176,6 +1176,9 @@ export namespace Prisma {
     photo_url: string | null
     email: string | null
     password: string | null
+    refresh_token: string | null
+    isOnline: boolean | null
+    last_seen: string | null
     role: $Enums.Role | null
     isBlocked: boolean | null
   }
@@ -1188,6 +1191,9 @@ export namespace Prisma {
     photo_url: string | null
     email: string | null
     password: string | null
+    refresh_token: string | null
+    isOnline: boolean | null
+    last_seen: string | null
     role: $Enums.Role | null
     isBlocked: boolean | null
   }
@@ -1200,6 +1206,9 @@ export namespace Prisma {
     photo_url: number
     email: number
     password: number
+    refresh_token: number
+    isOnline: number
+    last_seen: number
     role: number
     isBlocked: number
     blocked_users: number
@@ -1215,6 +1224,9 @@ export namespace Prisma {
     photo_url?: true
     email?: true
     password?: true
+    refresh_token?: true
+    isOnline?: true
+    last_seen?: true
     role?: true
     isBlocked?: true
   }
@@ -1227,6 +1239,9 @@ export namespace Prisma {
     photo_url?: true
     email?: true
     password?: true
+    refresh_token?: true
+    isOnline?: true
+    last_seen?: true
     role?: true
     isBlocked?: true
   }
@@ -1239,6 +1254,9 @@ export namespace Prisma {
     photo_url?: true
     email?: true
     password?: true
+    refresh_token?: true
+    isOnline?: true
+    last_seen?: true
     role?: true
     isBlocked?: true
     blocked_users?: true
@@ -1325,6 +1343,9 @@ export namespace Prisma {
     photo_url: string
     email: string
     password: string
+    refresh_token: string
+    isOnline: boolean
+    last_seen: string
     role: $Enums.Role
     isBlocked: boolean
     blocked_users: string[]
@@ -1355,12 +1376,15 @@ export namespace Prisma {
     photo_url?: boolean
     email?: boolean
     password?: boolean
+    refresh_token?: boolean
+    isOnline?: boolean
+    last_seen?: boolean
     role?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
     sended_messages?: boolean | User$sended_messagesArgs<ExtArgs>
     received_messages?: boolean | User$received_messagesArgs<ExtArgs>
-    sended_chats?: boolean | User$sended_chatsArgs<ExtArgs>
+    my_chats?: boolean | User$my_chatsArgs<ExtArgs>
     received_chats?: boolean | User$received_chatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1373,6 +1397,9 @@ export namespace Prisma {
     photo_url?: boolean
     email?: boolean
     password?: boolean
+    refresh_token?: boolean
+    isOnline?: boolean
+    last_seen?: boolean
     role?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
@@ -1386,6 +1413,9 @@ export namespace Prisma {
     photo_url?: boolean
     email?: boolean
     password?: boolean
+    refresh_token?: boolean
+    isOnline?: boolean
+    last_seen?: boolean
     role?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
@@ -1399,16 +1429,19 @@ export namespace Prisma {
     photo_url?: boolean
     email?: boolean
     password?: boolean
+    refresh_token?: boolean
+    isOnline?: boolean
+    last_seen?: boolean
     role?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "uin" | "user_name" | "photo_url" | "email" | "password" | "role" | "isBlocked" | "blocked_users", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "uin" | "user_name" | "photo_url" | "email" | "password" | "refresh_token" | "isOnline" | "last_seen" | "role" | "isBlocked" | "blocked_users", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sended_messages?: boolean | User$sended_messagesArgs<ExtArgs>
     received_messages?: boolean | User$received_messagesArgs<ExtArgs>
-    sended_chats?: boolean | User$sended_chatsArgs<ExtArgs>
+    my_chats?: boolean | User$my_chatsArgs<ExtArgs>
     received_chats?: boolean | User$received_chatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -1420,7 +1453,7 @@ export namespace Prisma {
     objects: {
       sended_messages: Prisma.$MessagePayload<ExtArgs>[]
       received_messages: Prisma.$MessagePayload<ExtArgs>[]
-      sended_chats: Prisma.$ChatPayload<ExtArgs>[]
+      my_chats: Prisma.$ChatPayload<ExtArgs>[]
       received_chats: Prisma.$ChatPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -1431,6 +1464,9 @@ export namespace Prisma {
       photo_url: string
       email: string
       password: string
+      refresh_token: string
+      isOnline: boolean
+      last_seen: string
       role: $Enums.Role
       isBlocked: boolean
       blocked_users: string[]
@@ -1830,7 +1866,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sended_messages<T extends User$sended_messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sended_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     received_messages<T extends User$received_messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$received_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sended_chats<T extends User$sended_chatsArgs<ExtArgs> = {}>(args?: Subset<T, User$sended_chatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    my_chats<T extends User$my_chatsArgs<ExtArgs> = {}>(args?: Subset<T, User$my_chatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     received_chats<T extends User$received_chatsArgs<ExtArgs> = {}>(args?: Subset<T, User$received_chatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1868,6 +1904,9 @@ export namespace Prisma {
     readonly photo_url: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
+    readonly refresh_token: FieldRef<"User", 'String'>
+    readonly isOnline: FieldRef<"User", 'Boolean'>
+    readonly last_seen: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly isBlocked: FieldRef<"User", 'Boolean'>
     readonly blocked_users: FieldRef<"User", 'String[]'>
@@ -2307,9 +2346,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.sended_chats
+   * User.my_chats
    */
-  export type User$sended_chatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$my_chatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Chat
      */
@@ -2385,22 +2424,22 @@ export namespace Prisma {
 
   export type ChatMinAggregateOutputType = {
     id: string | null
-    first_user_id: string | null
-    second_user_id: string | null
+    chat_user_one_id: string | null
+    chat_user_two_id: string | null
     created_at: Date | null
   }
 
   export type ChatMaxAggregateOutputType = {
     id: string | null
-    first_user_id: string | null
-    second_user_id: string | null
+    chat_user_one_id: string | null
+    chat_user_two_id: string | null
     created_at: Date | null
   }
 
   export type ChatCountAggregateOutputType = {
     id: number
-    first_user_id: number
-    second_user_id: number
+    chat_user_one_id: number
+    chat_user_two_id: number
     created_at: number
     _all: number
   }
@@ -2408,22 +2447,22 @@ export namespace Prisma {
 
   export type ChatMinAggregateInputType = {
     id?: true
-    first_user_id?: true
-    second_user_id?: true
+    chat_user_one_id?: true
+    chat_user_two_id?: true
     created_at?: true
   }
 
   export type ChatMaxAggregateInputType = {
     id?: true
-    first_user_id?: true
-    second_user_id?: true
+    chat_user_one_id?: true
+    chat_user_two_id?: true
     created_at?: true
   }
 
   export type ChatCountAggregateInputType = {
     id?: true
-    first_user_id?: true
-    second_user_id?: true
+    chat_user_one_id?: true
+    chat_user_two_id?: true
     created_at?: true
     _all?: true
   }
@@ -2502,8 +2541,8 @@ export namespace Prisma {
 
   export type ChatGroupByOutputType = {
     id: string
-    first_user_id: string
-    second_user_id: string
+    chat_user_one_id: string
+    chat_user_two_id: string
     created_at: Date
     _count: ChatCountAggregateOutputType | null
     _min: ChatMinAggregateOutputType | null
@@ -2526,67 +2565,67 @@ export namespace Prisma {
 
   export type ChatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    first_user_id?: boolean
-    second_user_id?: boolean
+    chat_user_one_id?: boolean
+    chat_user_two_id?: boolean
     created_at?: boolean
-    first_user?: boolean | UserDefaultArgs<ExtArgs>
-    second_user?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_one?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_two?: boolean | UserDefaultArgs<ExtArgs>
     messages?: boolean | Chat$messagesArgs<ExtArgs>
     _count?: boolean | ChatCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chat"]>
 
   export type ChatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    first_user_id?: boolean
-    second_user_id?: boolean
+    chat_user_one_id?: boolean
+    chat_user_two_id?: boolean
     created_at?: boolean
-    first_user?: boolean | UserDefaultArgs<ExtArgs>
-    second_user?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_one?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_two?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chat"]>
 
   export type ChatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    first_user_id?: boolean
-    second_user_id?: boolean
+    chat_user_one_id?: boolean
+    chat_user_two_id?: boolean
     created_at?: boolean
-    first_user?: boolean | UserDefaultArgs<ExtArgs>
-    second_user?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_one?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_two?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chat"]>
 
   export type ChatSelectScalar = {
     id?: boolean
-    first_user_id?: boolean
-    second_user_id?: boolean
+    chat_user_one_id?: boolean
+    chat_user_two_id?: boolean
     created_at?: boolean
   }
 
-  export type ChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "first_user_id" | "second_user_id" | "created_at", ExtArgs["result"]["chat"]>
+  export type ChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "chat_user_one_id" | "chat_user_two_id" | "created_at", ExtArgs["result"]["chat"]>
   export type ChatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    first_user?: boolean | UserDefaultArgs<ExtArgs>
-    second_user?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_one?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_two?: boolean | UserDefaultArgs<ExtArgs>
     messages?: boolean | Chat$messagesArgs<ExtArgs>
     _count?: boolean | ChatCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    first_user?: boolean | UserDefaultArgs<ExtArgs>
-    second_user?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_one?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_two?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ChatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    first_user?: boolean | UserDefaultArgs<ExtArgs>
-    second_user?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_one?: boolean | UserDefaultArgs<ExtArgs>
+    chat_user_two?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ChatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Chat"
     objects: {
-      first_user: Prisma.$UserPayload<ExtArgs>
-      second_user: Prisma.$UserPayload<ExtArgs>
+      chat_user_one: Prisma.$UserPayload<ExtArgs>
+      chat_user_two: Prisma.$UserPayload<ExtArgs>
       messages: Prisma.$MessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      first_user_id: string
-      second_user_id: string
+      chat_user_one_id: string
+      chat_user_two_id: string
       created_at: Date
     }, ExtArgs["result"]["chat"]>
     composites: {}
@@ -2982,8 +3021,8 @@ export namespace Prisma {
    */
   export interface Prisma__ChatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    first_user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    second_user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    chat_user_one<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    chat_user_two<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     messages<T extends Chat$messagesArgs<ExtArgs> = {}>(args?: Subset<T, Chat$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3015,8 +3054,8 @@ export namespace Prisma {
    */
   interface ChatFieldRefs {
     readonly id: FieldRef<"Chat", 'String'>
-    readonly first_user_id: FieldRef<"Chat", 'String'>
-    readonly second_user_id: FieldRef<"Chat", 'String'>
+    readonly chat_user_one_id: FieldRef<"Chat", 'String'>
+    readonly chat_user_two_id: FieldRef<"Chat", 'String'>
     readonly created_at: FieldRef<"Chat", 'DateTime'>
   }
     
@@ -4578,6 +4617,9 @@ export namespace Prisma {
     photo_url: 'photo_url',
     email: 'email',
     password: 'password',
+    refresh_token: 'refresh_token',
+    isOnline: 'isOnline',
+    last_seen: 'last_seen',
     role: 'role',
     isBlocked: 'isBlocked',
     blocked_users: 'blocked_users'
@@ -4588,8 +4630,8 @@ export namespace Prisma {
 
   export const ChatScalarFieldEnum: {
     id: 'id',
-    first_user_id: 'first_user_id',
-    second_user_id: 'second_user_id',
+    chat_user_one_id: 'chat_user_one_id',
+    chat_user_two_id: 'chat_user_two_id',
     created_at: 'created_at'
   };
 
@@ -4653,6 +4695,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -4663,13 +4712,6 @@ export namespace Prisma {
    * Reference to a field of type 'Role[]'
    */
   export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -4715,12 +4757,15 @@ export namespace Prisma {
     photo_url?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    refresh_token?: StringFilter<"User"> | string
+    isOnline?: BoolFilter<"User"> | boolean
+    last_seen?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     isBlocked?: BoolFilter<"User"> | boolean
     blocked_users?: StringNullableListFilter<"User">
     sended_messages?: MessageListRelationFilter
     received_messages?: MessageListRelationFilter
-    sended_chats?: ChatListRelationFilter
+    my_chats?: ChatListRelationFilter
     received_chats?: ChatListRelationFilter
   }
 
@@ -4732,12 +4777,15 @@ export namespace Prisma {
     photo_url?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    refresh_token?: SortOrder
+    isOnline?: SortOrder
+    last_seen?: SortOrder
     role?: SortOrder
     isBlocked?: SortOrder
     blocked_users?: SortOrder
     sended_messages?: MessageOrderByRelationAggregateInput
     received_messages?: MessageOrderByRelationAggregateInput
-    sended_chats?: ChatOrderByRelationAggregateInput
+    my_chats?: ChatOrderByRelationAggregateInput
     received_chats?: ChatOrderByRelationAggregateInput
   }
 
@@ -4752,12 +4800,15 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     photo_url?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    refresh_token?: StringFilter<"User"> | string
+    isOnline?: BoolFilter<"User"> | boolean
+    last_seen?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     isBlocked?: BoolFilter<"User"> | boolean
     blocked_users?: StringNullableListFilter<"User">
     sended_messages?: MessageListRelationFilter
     received_messages?: MessageListRelationFilter
-    sended_chats?: ChatListRelationFilter
+    my_chats?: ChatListRelationFilter
     received_chats?: ChatListRelationFilter
   }, "id" | "uin" | "user_name" | "email">
 
@@ -4769,6 +4820,9 @@ export namespace Prisma {
     photo_url?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    refresh_token?: SortOrder
+    isOnline?: SortOrder
+    last_seen?: SortOrder
     role?: SortOrder
     isBlocked?: SortOrder
     blocked_users?: SortOrder
@@ -4788,6 +4842,9 @@ export namespace Prisma {
     photo_url?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
+    refresh_token?: StringWithAggregatesFilter<"User"> | string
+    isOnline?: BoolWithAggregatesFilter<"User"> | boolean
+    last_seen?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     isBlocked?: BoolWithAggregatesFilter<"User"> | boolean
     blocked_users?: StringNullableListFilter<"User">
@@ -4798,21 +4855,21 @@ export namespace Prisma {
     OR?: ChatWhereInput[]
     NOT?: ChatWhereInput | ChatWhereInput[]
     id?: StringFilter<"Chat"> | string
-    first_user_id?: StringFilter<"Chat"> | string
-    second_user_id?: StringFilter<"Chat"> | string
+    chat_user_one_id?: StringFilter<"Chat"> | string
+    chat_user_two_id?: StringFilter<"Chat"> | string
     created_at?: DateTimeFilter<"Chat"> | Date | string
-    first_user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    second_user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    chat_user_one?: XOR<UserScalarRelationFilter, UserWhereInput>
+    chat_user_two?: XOR<UserScalarRelationFilter, UserWhereInput>
     messages?: MessageListRelationFilter
   }
 
   export type ChatOrderByWithRelationInput = {
     id?: SortOrder
-    first_user_id?: SortOrder
-    second_user_id?: SortOrder
+    chat_user_one_id?: SortOrder
+    chat_user_two_id?: SortOrder
     created_at?: SortOrder
-    first_user?: UserOrderByWithRelationInput
-    second_user?: UserOrderByWithRelationInput
+    chat_user_one?: UserOrderByWithRelationInput
+    chat_user_two?: UserOrderByWithRelationInput
     messages?: MessageOrderByRelationAggregateInput
   }
 
@@ -4821,18 +4878,18 @@ export namespace Prisma {
     AND?: ChatWhereInput | ChatWhereInput[]
     OR?: ChatWhereInput[]
     NOT?: ChatWhereInput | ChatWhereInput[]
-    first_user_id?: StringFilter<"Chat"> | string
-    second_user_id?: StringFilter<"Chat"> | string
+    chat_user_one_id?: StringFilter<"Chat"> | string
+    chat_user_two_id?: StringFilter<"Chat"> | string
     created_at?: DateTimeFilter<"Chat"> | Date | string
-    first_user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    second_user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    chat_user_one?: XOR<UserScalarRelationFilter, UserWhereInput>
+    chat_user_two?: XOR<UserScalarRelationFilter, UserWhereInput>
     messages?: MessageListRelationFilter
   }, "id">
 
   export type ChatOrderByWithAggregationInput = {
     id?: SortOrder
-    first_user_id?: SortOrder
-    second_user_id?: SortOrder
+    chat_user_one_id?: SortOrder
+    chat_user_two_id?: SortOrder
     created_at?: SortOrder
     _count?: ChatCountOrderByAggregateInput
     _max?: ChatMaxOrderByAggregateInput
@@ -4844,8 +4901,8 @@ export namespace Prisma {
     OR?: ChatScalarWhereWithAggregatesInput[]
     NOT?: ChatScalarWhereWithAggregatesInput | ChatScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Chat"> | string
-    first_user_id?: StringWithAggregatesFilter<"Chat"> | string
-    second_user_id?: StringWithAggregatesFilter<"Chat"> | string
+    chat_user_one_id?: StringWithAggregatesFilter<"Chat"> | string
+    chat_user_two_id?: StringWithAggregatesFilter<"Chat"> | string
     created_at?: DateTimeWithAggregatesFilter<"Chat"> | Date | string
   }
 
@@ -4928,13 +4985,16 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
     received_messages?: MessageCreateNestedManyWithoutReceived_byInput
-    sended_chats?: ChatCreateNestedManyWithoutFirst_userInput
-    received_chats?: ChatCreateNestedManyWithoutSecond_userInput
+    my_chats?: ChatCreateNestedManyWithoutChat_user_oneInput
+    received_chats?: ChatCreateNestedManyWithoutChat_user_twoInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4945,13 +5005,16 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
     received_messages?: MessageUncheckedCreateNestedManyWithoutReceived_byInput
-    sended_chats?: ChatUncheckedCreateNestedManyWithoutFirst_userInput
-    received_chats?: ChatUncheckedCreateNestedManyWithoutSecond_userInput
+    my_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_oneInput
+    received_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_twoInput
   }
 
   export type UserUpdateInput = {
@@ -4962,13 +5025,16 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
     received_messages?: MessageUpdateManyWithoutReceived_byNestedInput
-    sended_chats?: ChatUpdateManyWithoutFirst_userNestedInput
-    received_chats?: ChatUpdateManyWithoutSecond_userNestedInput
+    my_chats?: ChatUpdateManyWithoutChat_user_oneNestedInput
+    received_chats?: ChatUpdateManyWithoutChat_user_twoNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4979,13 +5045,16 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput
     received_messages?: MessageUncheckedUpdateManyWithoutReceived_byNestedInput
-    sended_chats?: ChatUncheckedUpdateManyWithoutFirst_userNestedInput
-    received_chats?: ChatUncheckedUpdateManyWithoutSecond_userNestedInput
+    my_chats?: ChatUncheckedUpdateManyWithoutChat_user_oneNestedInput
+    received_chats?: ChatUncheckedUpdateManyWithoutChat_user_twoNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4996,6 +5065,9 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
@@ -5009,6 +5081,9 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
@@ -5022,6 +5097,9 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
@@ -5030,15 +5108,15 @@ export namespace Prisma {
   export type ChatCreateInput = {
     id?: string
     created_at?: Date | string
-    first_user: UserCreateNestedOneWithoutSended_chatsInput
-    second_user: UserCreateNestedOneWithoutReceived_chatsInput
+    chat_user_one: UserCreateNestedOneWithoutMy_chatsInput
+    chat_user_two: UserCreateNestedOneWithoutReceived_chatsInput
     messages?: MessageCreateNestedManyWithoutChatInput
   }
 
   export type ChatUncheckedCreateInput = {
     id?: string
-    first_user_id: string
-    second_user_id: string
+    chat_user_one_id: string
+    chat_user_two_id: string
     created_at?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutChatInput
   }
@@ -5046,23 +5124,23 @@ export namespace Prisma {
   export type ChatUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    first_user?: UserUpdateOneRequiredWithoutSended_chatsNestedInput
-    second_user?: UserUpdateOneRequiredWithoutReceived_chatsNestedInput
+    chat_user_one?: UserUpdateOneRequiredWithoutMy_chatsNestedInput
+    chat_user_two?: UserUpdateOneRequiredWithoutReceived_chatsNestedInput
     messages?: MessageUpdateManyWithoutChatNestedInput
   }
 
   export type ChatUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    first_user_id?: StringFieldUpdateOperationsInput | string
-    second_user_id?: StringFieldUpdateOperationsInput | string
+    chat_user_one_id?: StringFieldUpdateOperationsInput | string
+    chat_user_two_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutChatNestedInput
   }
 
   export type ChatCreateManyInput = {
     id?: string
-    first_user_id: string
-    second_user_id: string
+    chat_user_one_id: string
+    chat_user_two_id: string
     created_at?: Date | string
   }
 
@@ -5073,8 +5151,8 @@ export namespace Prisma {
 
   export type ChatUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    first_user_id?: StringFieldUpdateOperationsInput | string
-    second_user_id?: StringFieldUpdateOperationsInput | string
+    chat_user_one_id?: StringFieldUpdateOperationsInput | string
+    chat_user_two_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5175,16 +5253,16 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -5228,6 +5306,9 @@ export namespace Prisma {
     photo_url?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    refresh_token?: SortOrder
+    isOnline?: SortOrder
+    last_seen?: SortOrder
     role?: SortOrder
     isBlocked?: SortOrder
     blocked_users?: SortOrder
@@ -5241,6 +5322,9 @@ export namespace Prisma {
     photo_url?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    refresh_token?: SortOrder
+    isOnline?: SortOrder
+    last_seen?: SortOrder
     role?: SortOrder
     isBlocked?: SortOrder
   }
@@ -5253,6 +5337,9 @@ export namespace Prisma {
     photo_url?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    refresh_token?: SortOrder
+    isOnline?: SortOrder
+    last_seen?: SortOrder
     role?: SortOrder
     isBlocked?: SortOrder
   }
@@ -5293,6 +5380,14 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -5301,14 +5396,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -5329,22 +5416,22 @@ export namespace Prisma {
 
   export type ChatCountOrderByAggregateInput = {
     id?: SortOrder
-    first_user_id?: SortOrder
-    second_user_id?: SortOrder
+    chat_user_one_id?: SortOrder
+    chat_user_two_id?: SortOrder
     created_at?: SortOrder
   }
 
   export type ChatMaxOrderByAggregateInput = {
     id?: SortOrder
-    first_user_id?: SortOrder
-    second_user_id?: SortOrder
+    chat_user_one_id?: SortOrder
+    chat_user_two_id?: SortOrder
     created_at?: SortOrder
   }
 
   export type ChatMinOrderByAggregateInput = {
     id?: SortOrder
-    first_user_id?: SortOrder
-    second_user_id?: SortOrder
+    chat_user_one_id?: SortOrder
+    chat_user_two_id?: SortOrder
     created_at?: SortOrder
   }
 
@@ -5415,17 +5502,17 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
-  export type ChatCreateNestedManyWithoutFirst_userInput = {
-    create?: XOR<ChatCreateWithoutFirst_userInput, ChatUncheckedCreateWithoutFirst_userInput> | ChatCreateWithoutFirst_userInput[] | ChatUncheckedCreateWithoutFirst_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutFirst_userInput | ChatCreateOrConnectWithoutFirst_userInput[]
-    createMany?: ChatCreateManyFirst_userInputEnvelope
+  export type ChatCreateNestedManyWithoutChat_user_oneInput = {
+    create?: XOR<ChatCreateWithoutChat_user_oneInput, ChatUncheckedCreateWithoutChat_user_oneInput> | ChatCreateWithoutChat_user_oneInput[] | ChatUncheckedCreateWithoutChat_user_oneInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_oneInput | ChatCreateOrConnectWithoutChat_user_oneInput[]
+    createMany?: ChatCreateManyChat_user_oneInputEnvelope
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
-  export type ChatCreateNestedManyWithoutSecond_userInput = {
-    create?: XOR<ChatCreateWithoutSecond_userInput, ChatUncheckedCreateWithoutSecond_userInput> | ChatCreateWithoutSecond_userInput[] | ChatUncheckedCreateWithoutSecond_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutSecond_userInput | ChatCreateOrConnectWithoutSecond_userInput[]
-    createMany?: ChatCreateManySecond_userInputEnvelope
+  export type ChatCreateNestedManyWithoutChat_user_twoInput = {
+    create?: XOR<ChatCreateWithoutChat_user_twoInput, ChatUncheckedCreateWithoutChat_user_twoInput> | ChatCreateWithoutChat_user_twoInput[] | ChatUncheckedCreateWithoutChat_user_twoInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_twoInput | ChatCreateOrConnectWithoutChat_user_twoInput[]
+    createMany?: ChatCreateManyChat_user_twoInputEnvelope
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
@@ -5443,17 +5530,17 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
-  export type ChatUncheckedCreateNestedManyWithoutFirst_userInput = {
-    create?: XOR<ChatCreateWithoutFirst_userInput, ChatUncheckedCreateWithoutFirst_userInput> | ChatCreateWithoutFirst_userInput[] | ChatUncheckedCreateWithoutFirst_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutFirst_userInput | ChatCreateOrConnectWithoutFirst_userInput[]
-    createMany?: ChatCreateManyFirst_userInputEnvelope
+  export type ChatUncheckedCreateNestedManyWithoutChat_user_oneInput = {
+    create?: XOR<ChatCreateWithoutChat_user_oneInput, ChatUncheckedCreateWithoutChat_user_oneInput> | ChatCreateWithoutChat_user_oneInput[] | ChatUncheckedCreateWithoutChat_user_oneInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_oneInput | ChatCreateOrConnectWithoutChat_user_oneInput[]
+    createMany?: ChatCreateManyChat_user_oneInputEnvelope
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
-  export type ChatUncheckedCreateNestedManyWithoutSecond_userInput = {
-    create?: XOR<ChatCreateWithoutSecond_userInput, ChatUncheckedCreateWithoutSecond_userInput> | ChatCreateWithoutSecond_userInput[] | ChatUncheckedCreateWithoutSecond_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutSecond_userInput | ChatCreateOrConnectWithoutSecond_userInput[]
-    createMany?: ChatCreateManySecond_userInputEnvelope
+  export type ChatUncheckedCreateNestedManyWithoutChat_user_twoInput = {
+    create?: XOR<ChatCreateWithoutChat_user_twoInput, ChatUncheckedCreateWithoutChat_user_twoInput> | ChatCreateWithoutChat_user_twoInput[] | ChatUncheckedCreateWithoutChat_user_twoInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_twoInput | ChatCreateOrConnectWithoutChat_user_twoInput[]
+    createMany?: ChatCreateManyChat_user_twoInputEnvelope
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
@@ -5465,12 +5552,12 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role
   }
 
   export type UserUpdateblocked_usersInput = {
@@ -5506,31 +5593,31 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
-  export type ChatUpdateManyWithoutFirst_userNestedInput = {
-    create?: XOR<ChatCreateWithoutFirst_userInput, ChatUncheckedCreateWithoutFirst_userInput> | ChatCreateWithoutFirst_userInput[] | ChatUncheckedCreateWithoutFirst_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutFirst_userInput | ChatCreateOrConnectWithoutFirst_userInput[]
-    upsert?: ChatUpsertWithWhereUniqueWithoutFirst_userInput | ChatUpsertWithWhereUniqueWithoutFirst_userInput[]
-    createMany?: ChatCreateManyFirst_userInputEnvelope
+  export type ChatUpdateManyWithoutChat_user_oneNestedInput = {
+    create?: XOR<ChatCreateWithoutChat_user_oneInput, ChatUncheckedCreateWithoutChat_user_oneInput> | ChatCreateWithoutChat_user_oneInput[] | ChatUncheckedCreateWithoutChat_user_oneInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_oneInput | ChatCreateOrConnectWithoutChat_user_oneInput[]
+    upsert?: ChatUpsertWithWhereUniqueWithoutChat_user_oneInput | ChatUpsertWithWhereUniqueWithoutChat_user_oneInput[]
+    createMany?: ChatCreateManyChat_user_oneInputEnvelope
     set?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     disconnect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     delete?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
-    update?: ChatUpdateWithWhereUniqueWithoutFirst_userInput | ChatUpdateWithWhereUniqueWithoutFirst_userInput[]
-    updateMany?: ChatUpdateManyWithWhereWithoutFirst_userInput | ChatUpdateManyWithWhereWithoutFirst_userInput[]
+    update?: ChatUpdateWithWhereUniqueWithoutChat_user_oneInput | ChatUpdateWithWhereUniqueWithoutChat_user_oneInput[]
+    updateMany?: ChatUpdateManyWithWhereWithoutChat_user_oneInput | ChatUpdateManyWithWhereWithoutChat_user_oneInput[]
     deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
-  export type ChatUpdateManyWithoutSecond_userNestedInput = {
-    create?: XOR<ChatCreateWithoutSecond_userInput, ChatUncheckedCreateWithoutSecond_userInput> | ChatCreateWithoutSecond_userInput[] | ChatUncheckedCreateWithoutSecond_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutSecond_userInput | ChatCreateOrConnectWithoutSecond_userInput[]
-    upsert?: ChatUpsertWithWhereUniqueWithoutSecond_userInput | ChatUpsertWithWhereUniqueWithoutSecond_userInput[]
-    createMany?: ChatCreateManySecond_userInputEnvelope
+  export type ChatUpdateManyWithoutChat_user_twoNestedInput = {
+    create?: XOR<ChatCreateWithoutChat_user_twoInput, ChatUncheckedCreateWithoutChat_user_twoInput> | ChatCreateWithoutChat_user_twoInput[] | ChatUncheckedCreateWithoutChat_user_twoInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_twoInput | ChatCreateOrConnectWithoutChat_user_twoInput[]
+    upsert?: ChatUpsertWithWhereUniqueWithoutChat_user_twoInput | ChatUpsertWithWhereUniqueWithoutChat_user_twoInput[]
+    createMany?: ChatCreateManyChat_user_twoInputEnvelope
     set?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     disconnect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     delete?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
-    update?: ChatUpdateWithWhereUniqueWithoutSecond_userInput | ChatUpdateWithWhereUniqueWithoutSecond_userInput[]
-    updateMany?: ChatUpdateManyWithWhereWithoutSecond_userInput | ChatUpdateManyWithWhereWithoutSecond_userInput[]
+    update?: ChatUpdateWithWhereUniqueWithoutChat_user_twoInput | ChatUpdateWithWhereUniqueWithoutChat_user_twoInput[]
+    updateMany?: ChatUpdateManyWithWhereWithoutChat_user_twoInput | ChatUpdateManyWithWhereWithoutChat_user_twoInput[]
     deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
@@ -5562,37 +5649,37 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
-  export type ChatUncheckedUpdateManyWithoutFirst_userNestedInput = {
-    create?: XOR<ChatCreateWithoutFirst_userInput, ChatUncheckedCreateWithoutFirst_userInput> | ChatCreateWithoutFirst_userInput[] | ChatUncheckedCreateWithoutFirst_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutFirst_userInput | ChatCreateOrConnectWithoutFirst_userInput[]
-    upsert?: ChatUpsertWithWhereUniqueWithoutFirst_userInput | ChatUpsertWithWhereUniqueWithoutFirst_userInput[]
-    createMany?: ChatCreateManyFirst_userInputEnvelope
+  export type ChatUncheckedUpdateManyWithoutChat_user_oneNestedInput = {
+    create?: XOR<ChatCreateWithoutChat_user_oneInput, ChatUncheckedCreateWithoutChat_user_oneInput> | ChatCreateWithoutChat_user_oneInput[] | ChatUncheckedCreateWithoutChat_user_oneInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_oneInput | ChatCreateOrConnectWithoutChat_user_oneInput[]
+    upsert?: ChatUpsertWithWhereUniqueWithoutChat_user_oneInput | ChatUpsertWithWhereUniqueWithoutChat_user_oneInput[]
+    createMany?: ChatCreateManyChat_user_oneInputEnvelope
     set?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     disconnect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     delete?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
-    update?: ChatUpdateWithWhereUniqueWithoutFirst_userInput | ChatUpdateWithWhereUniqueWithoutFirst_userInput[]
-    updateMany?: ChatUpdateManyWithWhereWithoutFirst_userInput | ChatUpdateManyWithWhereWithoutFirst_userInput[]
+    update?: ChatUpdateWithWhereUniqueWithoutChat_user_oneInput | ChatUpdateWithWhereUniqueWithoutChat_user_oneInput[]
+    updateMany?: ChatUpdateManyWithWhereWithoutChat_user_oneInput | ChatUpdateManyWithWhereWithoutChat_user_oneInput[]
     deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
-  export type ChatUncheckedUpdateManyWithoutSecond_userNestedInput = {
-    create?: XOR<ChatCreateWithoutSecond_userInput, ChatUncheckedCreateWithoutSecond_userInput> | ChatCreateWithoutSecond_userInput[] | ChatUncheckedCreateWithoutSecond_userInput[]
-    connectOrCreate?: ChatCreateOrConnectWithoutSecond_userInput | ChatCreateOrConnectWithoutSecond_userInput[]
-    upsert?: ChatUpsertWithWhereUniqueWithoutSecond_userInput | ChatUpsertWithWhereUniqueWithoutSecond_userInput[]
-    createMany?: ChatCreateManySecond_userInputEnvelope
+  export type ChatUncheckedUpdateManyWithoutChat_user_twoNestedInput = {
+    create?: XOR<ChatCreateWithoutChat_user_twoInput, ChatUncheckedCreateWithoutChat_user_twoInput> | ChatCreateWithoutChat_user_twoInput[] | ChatUncheckedCreateWithoutChat_user_twoInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutChat_user_twoInput | ChatCreateOrConnectWithoutChat_user_twoInput[]
+    upsert?: ChatUpsertWithWhereUniqueWithoutChat_user_twoInput | ChatUpsertWithWhereUniqueWithoutChat_user_twoInput[]
+    createMany?: ChatCreateManyChat_user_twoInputEnvelope
     set?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     disconnect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     delete?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
-    update?: ChatUpdateWithWhereUniqueWithoutSecond_userInput | ChatUpdateWithWhereUniqueWithoutSecond_userInput[]
-    updateMany?: ChatUpdateManyWithWhereWithoutSecond_userInput | ChatUpdateManyWithWhereWithoutSecond_userInput[]
+    update?: ChatUpdateWithWhereUniqueWithoutChat_user_twoInput | ChatUpdateWithWhereUniqueWithoutChat_user_twoInput[]
+    updateMany?: ChatUpdateManyWithWhereWithoutChat_user_twoInput | ChatUpdateManyWithWhereWithoutChat_user_twoInput[]
     deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutSended_chatsInput = {
-    create?: XOR<UserCreateWithoutSended_chatsInput, UserUncheckedCreateWithoutSended_chatsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSended_chatsInput
+  export type UserCreateNestedOneWithoutMy_chatsInput = {
+    create?: XOR<UserCreateWithoutMy_chatsInput, UserUncheckedCreateWithoutMy_chatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMy_chatsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -5620,12 +5707,12 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type UserUpdateOneRequiredWithoutSended_chatsNestedInput = {
-    create?: XOR<UserCreateWithoutSended_chatsInput, UserUncheckedCreateWithoutSended_chatsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSended_chatsInput
-    upsert?: UserUpsertWithoutSended_chatsInput
+  export type UserUpdateOneRequiredWithoutMy_chatsNestedInput = {
+    create?: XOR<UserCreateWithoutMy_chatsInput, UserUncheckedCreateWithoutMy_chatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMy_chatsInput
+    upsert?: UserUpsertWithoutMy_chatsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSended_chatsInput, UserUpdateWithoutSended_chatsInput>, UserUncheckedUpdateWithoutSended_chatsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMy_chatsInput, UserUpdateWithoutMy_chatsInput>, UserUncheckedUpdateWithoutMy_chatsInput>
   }
 
   export type UserUpdateOneRequiredWithoutReceived_chatsNestedInput = {
@@ -5734,16 +5821,16 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -5802,6 +5889,14 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -5810,14 +5905,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -5901,51 +5988,51 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ChatCreateWithoutFirst_userInput = {
+  export type ChatCreateWithoutChat_user_oneInput = {
     id?: string
     created_at?: Date | string
-    second_user: UserCreateNestedOneWithoutReceived_chatsInput
+    chat_user_two: UserCreateNestedOneWithoutReceived_chatsInput
     messages?: MessageCreateNestedManyWithoutChatInput
   }
 
-  export type ChatUncheckedCreateWithoutFirst_userInput = {
+  export type ChatUncheckedCreateWithoutChat_user_oneInput = {
     id?: string
-    second_user_id: string
+    chat_user_two_id: string
     created_at?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutChatInput
   }
 
-  export type ChatCreateOrConnectWithoutFirst_userInput = {
+  export type ChatCreateOrConnectWithoutChat_user_oneInput = {
     where: ChatWhereUniqueInput
-    create: XOR<ChatCreateWithoutFirst_userInput, ChatUncheckedCreateWithoutFirst_userInput>
+    create: XOR<ChatCreateWithoutChat_user_oneInput, ChatUncheckedCreateWithoutChat_user_oneInput>
   }
 
-  export type ChatCreateManyFirst_userInputEnvelope = {
-    data: ChatCreateManyFirst_userInput | ChatCreateManyFirst_userInput[]
+  export type ChatCreateManyChat_user_oneInputEnvelope = {
+    data: ChatCreateManyChat_user_oneInput | ChatCreateManyChat_user_oneInput[]
     skipDuplicates?: boolean
   }
 
-  export type ChatCreateWithoutSecond_userInput = {
+  export type ChatCreateWithoutChat_user_twoInput = {
     id?: string
     created_at?: Date | string
-    first_user: UserCreateNestedOneWithoutSended_chatsInput
+    chat_user_one: UserCreateNestedOneWithoutMy_chatsInput
     messages?: MessageCreateNestedManyWithoutChatInput
   }
 
-  export type ChatUncheckedCreateWithoutSecond_userInput = {
+  export type ChatUncheckedCreateWithoutChat_user_twoInput = {
     id?: string
-    first_user_id: string
+    chat_user_one_id: string
     created_at?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutChatInput
   }
 
-  export type ChatCreateOrConnectWithoutSecond_userInput = {
+  export type ChatCreateOrConnectWithoutChat_user_twoInput = {
     where: ChatWhereUniqueInput
-    create: XOR<ChatCreateWithoutSecond_userInput, ChatUncheckedCreateWithoutSecond_userInput>
+    create: XOR<ChatCreateWithoutChat_user_twoInput, ChatUncheckedCreateWithoutChat_user_twoInput>
   }
 
-  export type ChatCreateManySecond_userInputEnvelope = {
-    data: ChatCreateManySecond_userInput | ChatCreateManySecond_userInput[]
+  export type ChatCreateManyChat_user_twoInputEnvelope = {
+    data: ChatCreateManyChat_user_twoInput | ChatCreateManyChat_user_twoInput[]
     skipDuplicates?: boolean
   }
 
@@ -5994,20 +6081,20 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutReceived_byInput>
   }
 
-  export type ChatUpsertWithWhereUniqueWithoutFirst_userInput = {
+  export type ChatUpsertWithWhereUniqueWithoutChat_user_oneInput = {
     where: ChatWhereUniqueInput
-    update: XOR<ChatUpdateWithoutFirst_userInput, ChatUncheckedUpdateWithoutFirst_userInput>
-    create: XOR<ChatCreateWithoutFirst_userInput, ChatUncheckedCreateWithoutFirst_userInput>
+    update: XOR<ChatUpdateWithoutChat_user_oneInput, ChatUncheckedUpdateWithoutChat_user_oneInput>
+    create: XOR<ChatCreateWithoutChat_user_oneInput, ChatUncheckedCreateWithoutChat_user_oneInput>
   }
 
-  export type ChatUpdateWithWhereUniqueWithoutFirst_userInput = {
+  export type ChatUpdateWithWhereUniqueWithoutChat_user_oneInput = {
     where: ChatWhereUniqueInput
-    data: XOR<ChatUpdateWithoutFirst_userInput, ChatUncheckedUpdateWithoutFirst_userInput>
+    data: XOR<ChatUpdateWithoutChat_user_oneInput, ChatUncheckedUpdateWithoutChat_user_oneInput>
   }
 
-  export type ChatUpdateManyWithWhereWithoutFirst_userInput = {
+  export type ChatUpdateManyWithWhereWithoutChat_user_oneInput = {
     where: ChatScalarWhereInput
-    data: XOR<ChatUpdateManyMutationInput, ChatUncheckedUpdateManyWithoutFirst_userInput>
+    data: XOR<ChatUpdateManyMutationInput, ChatUncheckedUpdateManyWithoutChat_user_oneInput>
   }
 
   export type ChatScalarWhereInput = {
@@ -6015,28 +6102,28 @@ export namespace Prisma {
     OR?: ChatScalarWhereInput[]
     NOT?: ChatScalarWhereInput | ChatScalarWhereInput[]
     id?: StringFilter<"Chat"> | string
-    first_user_id?: StringFilter<"Chat"> | string
-    second_user_id?: StringFilter<"Chat"> | string
+    chat_user_one_id?: StringFilter<"Chat"> | string
+    chat_user_two_id?: StringFilter<"Chat"> | string
     created_at?: DateTimeFilter<"Chat"> | Date | string
   }
 
-  export type ChatUpsertWithWhereUniqueWithoutSecond_userInput = {
+  export type ChatUpsertWithWhereUniqueWithoutChat_user_twoInput = {
     where: ChatWhereUniqueInput
-    update: XOR<ChatUpdateWithoutSecond_userInput, ChatUncheckedUpdateWithoutSecond_userInput>
-    create: XOR<ChatCreateWithoutSecond_userInput, ChatUncheckedCreateWithoutSecond_userInput>
+    update: XOR<ChatUpdateWithoutChat_user_twoInput, ChatUncheckedUpdateWithoutChat_user_twoInput>
+    create: XOR<ChatCreateWithoutChat_user_twoInput, ChatUncheckedCreateWithoutChat_user_twoInput>
   }
 
-  export type ChatUpdateWithWhereUniqueWithoutSecond_userInput = {
+  export type ChatUpdateWithWhereUniqueWithoutChat_user_twoInput = {
     where: ChatWhereUniqueInput
-    data: XOR<ChatUpdateWithoutSecond_userInput, ChatUncheckedUpdateWithoutSecond_userInput>
+    data: XOR<ChatUpdateWithoutChat_user_twoInput, ChatUncheckedUpdateWithoutChat_user_twoInput>
   }
 
-  export type ChatUpdateManyWithWhereWithoutSecond_userInput = {
+  export type ChatUpdateManyWithWhereWithoutChat_user_twoInput = {
     where: ChatScalarWhereInput
-    data: XOR<ChatUpdateManyMutationInput, ChatUncheckedUpdateManyWithoutSecond_userInput>
+    data: XOR<ChatUpdateManyMutationInput, ChatUncheckedUpdateManyWithoutChat_user_twoInput>
   }
 
-  export type UserCreateWithoutSended_chatsInput = {
+  export type UserCreateWithoutMy_chatsInput = {
     id?: string
     name: string
     uin: string
@@ -6044,15 +6131,18 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
     received_messages?: MessageCreateNestedManyWithoutReceived_byInput
-    received_chats?: ChatCreateNestedManyWithoutSecond_userInput
+    received_chats?: ChatCreateNestedManyWithoutChat_user_twoInput
   }
 
-  export type UserUncheckedCreateWithoutSended_chatsInput = {
+  export type UserUncheckedCreateWithoutMy_chatsInput = {
     id?: string
     name: string
     uin: string
@@ -6060,17 +6150,20 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
     received_messages?: MessageUncheckedCreateNestedManyWithoutReceived_byInput
-    received_chats?: ChatUncheckedCreateNestedManyWithoutSecond_userInput
+    received_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_twoInput
   }
 
-  export type UserCreateOrConnectWithoutSended_chatsInput = {
+  export type UserCreateOrConnectWithoutMy_chatsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSended_chatsInput, UserUncheckedCreateWithoutSended_chatsInput>
+    create: XOR<UserCreateWithoutMy_chatsInput, UserUncheckedCreateWithoutMy_chatsInput>
   }
 
   export type UserCreateWithoutReceived_chatsInput = {
@@ -6081,12 +6174,15 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
     received_messages?: MessageCreateNestedManyWithoutReceived_byInput
-    sended_chats?: ChatCreateNestedManyWithoutFirst_userInput
+    my_chats?: ChatCreateNestedManyWithoutChat_user_oneInput
   }
 
   export type UserUncheckedCreateWithoutReceived_chatsInput = {
@@ -6097,12 +6193,15 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
     received_messages?: MessageUncheckedCreateNestedManyWithoutReceived_byInput
-    sended_chats?: ChatUncheckedCreateNestedManyWithoutFirst_userInput
+    my_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_oneInput
   }
 
   export type UserCreateOrConnectWithoutReceived_chatsInput = {
@@ -6138,18 +6237,18 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutSended_chatsInput = {
-    update: XOR<UserUpdateWithoutSended_chatsInput, UserUncheckedUpdateWithoutSended_chatsInput>
-    create: XOR<UserCreateWithoutSended_chatsInput, UserUncheckedCreateWithoutSended_chatsInput>
+  export type UserUpsertWithoutMy_chatsInput = {
+    update: XOR<UserUpdateWithoutMy_chatsInput, UserUncheckedUpdateWithoutMy_chatsInput>
+    create: XOR<UserCreateWithoutMy_chatsInput, UserUncheckedCreateWithoutMy_chatsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutSended_chatsInput = {
+  export type UserUpdateToOneWithWhereWithoutMy_chatsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSended_chatsInput, UserUncheckedUpdateWithoutSended_chatsInput>
+    data: XOR<UserUpdateWithoutMy_chatsInput, UserUncheckedUpdateWithoutMy_chatsInput>
   }
 
-  export type UserUpdateWithoutSended_chatsInput = {
+  export type UserUpdateWithoutMy_chatsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     uin?: StringFieldUpdateOperationsInput | string
@@ -6157,15 +6256,18 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
     received_messages?: MessageUpdateManyWithoutReceived_byNestedInput
-    received_chats?: ChatUpdateManyWithoutSecond_userNestedInput
+    received_chats?: ChatUpdateManyWithoutChat_user_twoNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutSended_chatsInput = {
+  export type UserUncheckedUpdateWithoutMy_chatsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     uin?: StringFieldUpdateOperationsInput | string
@@ -6173,12 +6275,15 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput
     received_messages?: MessageUncheckedUpdateManyWithoutReceived_byNestedInput
-    received_chats?: ChatUncheckedUpdateManyWithoutSecond_userNestedInput
+    received_chats?: ChatUncheckedUpdateManyWithoutChat_user_twoNestedInput
   }
 
   export type UserUpsertWithoutReceived_chatsInput = {
@@ -6200,12 +6305,15 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
     received_messages?: MessageUpdateManyWithoutReceived_byNestedInput
-    sended_chats?: ChatUpdateManyWithoutFirst_userNestedInput
+    my_chats?: ChatUpdateManyWithoutChat_user_oneNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReceived_chatsInput = {
@@ -6216,12 +6324,15 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput
     received_messages?: MessageUncheckedUpdateManyWithoutReceived_byNestedInput
-    sended_chats?: ChatUncheckedUpdateManyWithoutFirst_userNestedInput
+    my_chats?: ChatUncheckedUpdateManyWithoutChat_user_oneNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutChatInput = {
@@ -6243,14 +6354,14 @@ export namespace Prisma {
   export type ChatCreateWithoutMessagesInput = {
     id?: string
     created_at?: Date | string
-    first_user: UserCreateNestedOneWithoutSended_chatsInput
-    second_user: UserCreateNestedOneWithoutReceived_chatsInput
+    chat_user_one: UserCreateNestedOneWithoutMy_chatsInput
+    chat_user_two: UserCreateNestedOneWithoutReceived_chatsInput
   }
 
   export type ChatUncheckedCreateWithoutMessagesInput = {
     id?: string
-    first_user_id: string
-    second_user_id: string
+    chat_user_one_id: string
+    chat_user_two_id: string
     created_at?: Date | string
   }
 
@@ -6267,12 +6378,15 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     received_messages?: MessageCreateNestedManyWithoutReceived_byInput
-    sended_chats?: ChatCreateNestedManyWithoutFirst_userInput
-    received_chats?: ChatCreateNestedManyWithoutSecond_userInput
+    my_chats?: ChatCreateNestedManyWithoutChat_user_oneInput
+    received_chats?: ChatCreateNestedManyWithoutChat_user_twoInput
   }
 
   export type UserUncheckedCreateWithoutSended_messagesInput = {
@@ -6283,12 +6397,15 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     received_messages?: MessageUncheckedCreateNestedManyWithoutReceived_byInput
-    sended_chats?: ChatUncheckedCreateNestedManyWithoutFirst_userInput
-    received_chats?: ChatUncheckedCreateNestedManyWithoutSecond_userInput
+    my_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_oneInput
+    received_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_twoInput
   }
 
   export type UserCreateOrConnectWithoutSended_messagesInput = {
@@ -6304,12 +6421,15 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
-    sended_chats?: ChatCreateNestedManyWithoutFirst_userInput
-    received_chats?: ChatCreateNestedManyWithoutSecond_userInput
+    my_chats?: ChatCreateNestedManyWithoutChat_user_oneInput
+    received_chats?: ChatCreateNestedManyWithoutChat_user_twoInput
   }
 
   export type UserUncheckedCreateWithoutReceived_messagesInput = {
@@ -6320,12 +6440,15 @@ export namespace Prisma {
     photo_url?: string
     email: string
     password: string
+    refresh_token?: string
+    isOnline?: boolean
+    last_seen?: string
     role?: $Enums.Role
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
-    sended_chats?: ChatUncheckedCreateNestedManyWithoutFirst_userInput
-    received_chats?: ChatUncheckedCreateNestedManyWithoutSecond_userInput
+    my_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_oneInput
+    received_chats?: ChatUncheckedCreateNestedManyWithoutChat_user_twoInput
   }
 
   export type UserCreateOrConnectWithoutReceived_messagesInput = {
@@ -6347,14 +6470,14 @@ export namespace Prisma {
   export type ChatUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    first_user?: UserUpdateOneRequiredWithoutSended_chatsNestedInput
-    second_user?: UserUpdateOneRequiredWithoutReceived_chatsNestedInput
+    chat_user_one?: UserUpdateOneRequiredWithoutMy_chatsNestedInput
+    chat_user_two?: UserUpdateOneRequiredWithoutReceived_chatsNestedInput
   }
 
   export type ChatUncheckedUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    first_user_id?: StringFieldUpdateOperationsInput | string
-    second_user_id?: StringFieldUpdateOperationsInput | string
+    chat_user_one_id?: StringFieldUpdateOperationsInput | string
+    chat_user_two_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6377,12 +6500,15 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     received_messages?: MessageUpdateManyWithoutReceived_byNestedInput
-    sended_chats?: ChatUpdateManyWithoutFirst_userNestedInput
-    received_chats?: ChatUpdateManyWithoutSecond_userNestedInput
+    my_chats?: ChatUpdateManyWithoutChat_user_oneNestedInput
+    received_chats?: ChatUpdateManyWithoutChat_user_twoNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSended_messagesInput = {
@@ -6393,12 +6519,15 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     received_messages?: MessageUncheckedUpdateManyWithoutReceived_byNestedInput
-    sended_chats?: ChatUncheckedUpdateManyWithoutFirst_userNestedInput
-    received_chats?: ChatUncheckedUpdateManyWithoutSecond_userNestedInput
+    my_chats?: ChatUncheckedUpdateManyWithoutChat_user_oneNestedInput
+    received_chats?: ChatUncheckedUpdateManyWithoutChat_user_twoNestedInput
   }
 
   export type UserUpsertWithoutReceived_messagesInput = {
@@ -6420,12 +6549,15 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
-    sended_chats?: ChatUpdateManyWithoutFirst_userNestedInput
-    received_chats?: ChatUpdateManyWithoutSecond_userNestedInput
+    my_chats?: ChatUpdateManyWithoutChat_user_oneNestedInput
+    received_chats?: ChatUpdateManyWithoutChat_user_twoNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReceived_messagesInput = {
@@ -6436,12 +6568,15 @@ export namespace Prisma {
     photo_url?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    refresh_token?: StringFieldUpdateOperationsInput | string
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput
-    sended_chats?: ChatUncheckedUpdateManyWithoutFirst_userNestedInput
-    received_chats?: ChatUncheckedUpdateManyWithoutSecond_userNestedInput
+    my_chats?: ChatUncheckedUpdateManyWithoutChat_user_oneNestedInput
+    received_chats?: ChatUncheckedUpdateManyWithoutChat_user_twoNestedInput
   }
 
   export type MessageCreateManySended_byInput = {
@@ -6462,15 +6597,15 @@ export namespace Prisma {
     updated_at?: Date | string
   }
 
-  export type ChatCreateManyFirst_userInput = {
+  export type ChatCreateManyChat_user_oneInput = {
     id?: string
-    second_user_id: string
+    chat_user_two_id: string
     created_at?: Date | string
   }
 
-  export type ChatCreateManySecond_userInput = {
+  export type ChatCreateManyChat_user_twoInput = {
     id?: string
-    first_user_id: string
+    chat_user_one_id: string
     created_at?: Date | string
   }
 
@@ -6528,43 +6663,43 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ChatUpdateWithoutFirst_userInput = {
+  export type ChatUpdateWithoutChat_user_oneInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    second_user?: UserUpdateOneRequiredWithoutReceived_chatsNestedInput
+    chat_user_two?: UserUpdateOneRequiredWithoutReceived_chatsNestedInput
     messages?: MessageUpdateManyWithoutChatNestedInput
   }
 
-  export type ChatUncheckedUpdateWithoutFirst_userInput = {
+  export type ChatUncheckedUpdateWithoutChat_user_oneInput = {
     id?: StringFieldUpdateOperationsInput | string
-    second_user_id?: StringFieldUpdateOperationsInput | string
+    chat_user_two_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutChatNestedInput
   }
 
-  export type ChatUncheckedUpdateManyWithoutFirst_userInput = {
+  export type ChatUncheckedUpdateManyWithoutChat_user_oneInput = {
     id?: StringFieldUpdateOperationsInput | string
-    second_user_id?: StringFieldUpdateOperationsInput | string
+    chat_user_two_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ChatUpdateWithoutSecond_userInput = {
+  export type ChatUpdateWithoutChat_user_twoInput = {
     id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    first_user?: UserUpdateOneRequiredWithoutSended_chatsNestedInput
+    chat_user_one?: UserUpdateOneRequiredWithoutMy_chatsNestedInput
     messages?: MessageUpdateManyWithoutChatNestedInput
   }
 
-  export type ChatUncheckedUpdateWithoutSecond_userInput = {
+  export type ChatUncheckedUpdateWithoutChat_user_twoInput = {
     id?: StringFieldUpdateOperationsInput | string
-    first_user_id?: StringFieldUpdateOperationsInput | string
+    chat_user_one_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutChatNestedInput
   }
 
-  export type ChatUncheckedUpdateManyWithoutSecond_userInput = {
+  export type ChatUncheckedUpdateManyWithoutChat_user_twoInput = {
     id?: StringFieldUpdateOperationsInput | string
-    first_user_id?: StringFieldUpdateOperationsInput | string
+    chat_user_one_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -27,11 +27,7 @@ export class MessageDTO {
 export class UpdateMessageDTO {
 	@IsString()
 	@IsNotEmpty()
-	chat_id: string;
-
-	@IsString()
-	@IsNotEmpty()
-	sender_id: string;
+	id: string;
 
 	@IsString()
 	@IsNotEmpty()
