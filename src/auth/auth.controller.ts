@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -8,5 +8,15 @@ export class AuthController {
 	@Get('tokens')
 	async getTokens(@Body() uin: string) {
 		return await this.authService.generateTokens(uin);
+	}
+
+	@Get('checkAccess')
+	async checkAccess(@Query('token') token: string) {
+		return await this.authService.validateAccessToken(token);
+	}
+
+	@Get('checkRefresh')
+	async checkRefresh(@Query('token') token: string) {
+		return await this.authService.validateRefreshToken(token);
 	}
 }

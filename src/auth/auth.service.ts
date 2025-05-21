@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 
 @Injectable()
@@ -13,11 +13,7 @@ export class AuthService {
 	) {}
 
 	async generateTokens(uin: any) {
-		if (uin !== Object) {
-			return;
-		} else {
-			uin = uin['uin'];
-		}
+		uin = typeof uin === 'object' ? uin.uin : uin;
 		const accessToken: string = await this.jwt.signAsync(
 			{ uin },
 			{
@@ -49,64 +45,71 @@ export class AuthService {
 	}
 
 	async validateAccessToken(accessToken: string) {
-		const token = await this.jwt.decode(accessToken);
-		if (!token) {
-			return {
-				status: HttpStatus.UNAUTHORIZED,
-				message: 'Unauthorized',
-			};
-		} else {
-			const user = await this.prisma.user.findUnique({
-				where: {
-					uin: token.uin,
-				},
+		try {
+			const payload = await this.jwt.verifyAsync(accessToken, {
+				secret: this.config.get('JWT_SECRET'),
 			});
+
+			const user = await this.prisma.user.findUnique({
+				where: { uin: payload.uin },
+			});
+
 			if (!user) {
 				return {
 					status: HttpStatus.UNAUTHORIZED,
-					message: 'Unauthorized',
-				};
-			} else {
-				return {
-					status: HttpStatus.OK,
-					message: 'All is Ok',
+					message: 'User not found',
 				};
 			}
+
+			return {
+				status: HttpStatus.OK,
+				message: 'Token is valid',
+				payload,
+			};
+		} catch (e) {
+			if (e instanceof TokenExpiredError) {
+				return {
+					status: HttpStatus.UNAUTHORIZED,
+					message: 'Token has expired',
+				};
+			}
+
+			return {
+				status: HttpStatus.UNAUTHORIZED,
+				message: `Token verification failed: ${e.message}`,
+			};
 		}
 	}
 
 	async validateRefreshToken(refreshToken: string) {
-		const token = await this.jwt.decode(refreshToken);
-		if (!token) {
-			return {
-				status: HttpStatus.UNAUTHORIZED,
-				message: 'Unauthorized',
-			};
-		} else {
+		try {
+			const payload = await this.jwt.verifyAsync(refreshToken, {
+				secret: this.config.get('JWT_SECRET'),
+			});
+
 			const user = await this.prisma.user.findUnique({
-				where: {
-					uin: token.uin,
-				},
+				where: { uin: payload.uin },
 			});
 			if (!user) {
 				return {
 					status: HttpStatus.UNAUTHORIZED,
-					message: 'Unauthorized',
+					message: 'User not found',
 				};
-			} else {
-				const verifiedToken = await argon2.verify(
-					user.refresh_token,
-					refreshToken,
-				);
-				if (!verifiedToken) {
-					return {
-						status: HttpStatus.UNAUTHORIZED,
-						message: 'Unauthorized',
-					};
-				} else {
-					return await this.generateTokens(user.uin);
-				}
 			}
+
+			return this.generateTokens(user.uin);
+		} catch (e) {
+			if (e instanceof TokenExpiredError) {
+				return {
+					status: HttpStatus.UNAUTHORIZED,
+					message: 'Token has expired',
+				};
+			}
+
+			return {
+				status: HttpStatus.INTERNAL_SERVER_ERROR,
+				error: e.message,
+			};
 		}
 	}
 }
