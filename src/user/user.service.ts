@@ -23,7 +23,10 @@ export class UserService {
 				},
 			});
 		} catch (e) {
-			throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+			throw new HttpException(
+				`User already exists, ${e}`,
+				HttpStatus.BAD_REQUEST,
+			);
 		}
 	}
 

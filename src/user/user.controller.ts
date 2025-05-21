@@ -33,17 +33,16 @@ export class UserController {
 		try {
 			user.password = await argon2.hash(user.password);
 			const createdUser = await this.userService.addUser(user);
-			const { accessToken, refreshToken } =
-				await this.authService.generateTokens(createdUser.uin);
+			const tokenGen = await this.authService.generateTokens(createdUser.uin);
 
-			res.cookie('access_token', accessToken, {
+			res.cookie('access_token', tokenGen?.accessToken, {
 				httpOnly: true,
 				secure: true,
 				sameSite: 'strict',
 				maxAge: 1000 * 60 * 15,
 			});
 
-			res.cookie('refresh_token', refreshToken, {
+			res.cookie('refresh_token', tokenGen?.refreshToken, {
 				httpOnly: true,
 				secure: true,
 				sameSite: 'strict',

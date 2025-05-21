@@ -12,7 +12,12 @@ export class AuthService {
 		public readonly jwt: JwtService,
 	) {}
 
-	async generateTokens(uin: string) {
+	async generateTokens(uin: any) {
+		if (uin !== Object) {
+			return;
+		} else {
+			uin = uin['uin'];
+		}
 		const accessToken: string = await this.jwt.signAsync(
 			{ uin },
 			{
