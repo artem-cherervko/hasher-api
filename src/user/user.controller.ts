@@ -55,7 +55,11 @@ export class UserController {
 				user: { uin: createdUser.uin, user_name: createdUser.user_name },
 			};
 		} catch (e) {
-			throw new HttpException(e.message || e, HttpStatus.BAD_REQUEST);
+			const message =
+				typeof e === 'object' && e !== null && 'message' in e
+					? (e as { message: string }).message
+					: String(e);
+			throw new HttpException(message, HttpStatus.BAD_REQUEST);
 		}
 	}
 

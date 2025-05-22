@@ -112,4 +112,31 @@ export class AuthService {
 			};
 		}
 	}
+
+	async logout(uin: any) {
+		uin = typeof uin === 'object' ? uin.uin : uin;
+		await this.prisma.user.update({
+			where: { uin },
+			data: { refresh_token: '' },
+		});
+		return {
+			status: HttpStatus.OK,
+			message: 'Logged out successfully',
+		};
+	}
+
+	async login(uin: any) {
+		uin = typeof uin === 'object' ? uin.uin : uin;
+		const user = await this.prisma.user.findUnique({
+			where: { uin },
+		});
+		if (!user) {
+			return {
+				status: HttpStatus.UNAUTHORIZED,
+				message: 'User not found',
+			};
+		}
+
+		return await this.generateTokens(user.uin);
+	}
 }

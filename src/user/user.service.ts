@@ -38,7 +38,7 @@ export class UserService {
 				},
 			});
 			return user;
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				'No user based on the provided UIN',
 				HttpStatus.NOT_FOUND,
@@ -54,7 +54,7 @@ export class UserService {
 				},
 			});
 			return user;
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				'No user based on the provided user name',
 				HttpStatus.NOT_FOUND,
@@ -113,7 +113,7 @@ export class UserService {
 				});
 			}
 		} catch (e) {
-			throw new HttpException(e, HttpStatus.BAD_REQUEST);
+			throw new HttpException(String(e), HttpStatus.BAD_REQUEST);
 		}
 	}
 
