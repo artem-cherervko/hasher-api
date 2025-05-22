@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
@@ -125,18 +125,20 @@ export class AuthService {
 		};
 	}
 
-	async login(uin: any) {
+	async login(uin: any, password: string) {
 		uin = typeof uin === 'object' ? uin.uin : uin;
 		const user = await this.prisma.user.findUnique({
 			where: { uin },
 		});
 		if (!user) {
-			return {
-				status: HttpStatus.UNAUTHORIZED,
-				message: 'User not found',
-			};
-		}
+			throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+		} else {
+			const isPasswordValid = await argon2.verify(user.password, password);
+			if (!isPasswordValid) {
+				throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
+			}
 
-		return await this.generateTokens(user.uin);
+			return await this.generateTokens(user.uin);
+		}
 	}
 }
