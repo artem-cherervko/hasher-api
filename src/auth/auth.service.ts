@@ -18,13 +18,13 @@ export class AuthService {
 			{ uin },
 			{
 				secret: this.config.get('JWT_SECRET'),
-				expiresIn: '15m',
+				expiresIn: '5m',
 			},
 		);
 
 		const refreshToken: string = await this.jwt.signAsync(
 			{ uin, accessToken },
-			{ secret: this.config.get('JWT_SECRET'), expiresIn: '7d' },
+			{ secret: this.config.get('JWT_SECRET'), expiresIn: '3d' },
 		);
 
 		const hashed_refresh_token = await argon2.hash(refreshToken);
@@ -55,10 +55,7 @@ export class AuthService {
 			});
 
 			if (!user) {
-				return {
-					status: HttpStatus.UNAUTHORIZED,
-					message: 'User not found',
-				};
+				throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
 			}
 
 			return {
@@ -68,16 +65,13 @@ export class AuthService {
 			};
 		} catch (e) {
 			if (e instanceof TokenExpiredError) {
-				return {
-					status: HttpStatus.UNAUTHORIZED,
-					message: 'Token has expired',
-				};
+				throw new HttpException('Token has expired', HttpStatus.UNAUTHORIZED);
 			}
 
-			return {
-				status: HttpStatus.UNAUTHORIZED,
-				message: `Token verification failed: ${e.message}`,
-			};
+			throw new HttpException(
+				'Token verification failed',
+				HttpStatus.UNAUTHORIZED,
+			);
 		}
 	}
 
@@ -91,25 +85,19 @@ export class AuthService {
 				where: { uin: payload.uin },
 			});
 			if (!user) {
-				return {
-					status: HttpStatus.UNAUTHORIZED,
-					message: 'User not found',
-				};
+				throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
 			}
 
 			return this.generateTokens(user.uin);
 		} catch (e) {
 			if (e instanceof TokenExpiredError) {
-				return {
-					status: HttpStatus.UNAUTHORIZED,
-					message: 'Token has expired',
-				};
+				throw new HttpException('Token has expired', HttpStatus.UNAUTHORIZED);
 			}
 
-			return {
-				status: HttpStatus.INTERNAL_SERVER_ERROR,
-				error: e.message,
-			};
+			throw new HttpException(
+				'Token verification failed',
+				HttpStatus.UNAUTHORIZED,
+			);
 		}
 	}
 

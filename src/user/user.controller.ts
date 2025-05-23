@@ -35,14 +35,14 @@ export class UserController {
 			const createdUser = await this.userService.addUser(user);
 			const tokenGen = await this.authService.generateTokens(createdUser.uin);
 
-			res.cookie('access_token', tokenGen?.accessToken, {
+			res.cookie('u', tokenGen?.accessToken, {
 				httpOnly: true,
 				secure: true,
 				sameSite: 'strict',
 				maxAge: 1000 * 60 * 15,
 			});
 
-			res.cookie('refresh_token', tokenGen?.refreshToken, {
+			res.cookie('r', tokenGen?.refreshToken, {
 				httpOnly: true,
 				secure: true,
 				sameSite: 'strict',
