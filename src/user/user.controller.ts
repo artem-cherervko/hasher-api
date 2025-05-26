@@ -62,7 +62,6 @@ export class UserController {
 			throw new HttpException(message, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@UseGuards(JwtAuthGuard)
 	@Get('getUser')
 	async getUser(

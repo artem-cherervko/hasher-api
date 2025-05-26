@@ -25,12 +25,12 @@ export class AuthController {
 		return await this.authService.generateTokens(uin);
 	}
 
-	@Get('checkAccess')
+	@Get('check-access')
 	async checkAccess(@Query('token') token: string) {
 		return await this.authService.validateAccessToken(token);
 	}
 
-	@Get('checkRefresh')
+	@Get('check-refresh')
 	async checkRefresh(@Query('token') token: string) {
 		return await this.authService.validateRefreshToken(token);
 	}

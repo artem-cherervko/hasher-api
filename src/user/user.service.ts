@@ -36,6 +36,12 @@ export class UserService {
 				where: {
 					uin: uin,
 				},
+				include: {
+					my_chats: true,
+					received_chats: true,
+					sended_messages: true,
+					received_messages: true,
+				},
 			});
 			return user;
 		} catch {
@@ -51,6 +57,12 @@ export class UserService {
 			const user = await this.prisma.user.findUnique({
 				where: {
 					user_name: user_name,
+				},
+				include: {
+					my_chats: true,
+					received_chats: true,
+					sended_messages: true,
+					received_messages: true,
 				},
 			});
 			return user;

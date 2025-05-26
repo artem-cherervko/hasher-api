@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
