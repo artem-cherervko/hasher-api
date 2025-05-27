@@ -34,4 +34,9 @@ export class AuthController {
 	async checkRefresh(@Query('token') token: string) {
 		return await this.authService.validateRefreshToken(token);
 	}
+
+	@Get('getUIN')
+	async getUin(@Query('token') token: string) {
+		return await this.authService.getUinFromAccessToken(token);
+	}
 }

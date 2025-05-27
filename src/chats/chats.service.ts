@@ -10,6 +10,59 @@ export class ChatsService {
 		private readonly prismaService: PrismaService,
 	) {}
 
+	async getAllChats(uin: string) {
+		const user = await this.userService.findUserByUIN(uin);
+		if (!user) {
+			throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+		}
+		const chats = await this.prismaService.chat.findMany({
+			where: {
+				OR: [{ chat_user_one_id: user.id }, { chat_user_two_id: user.id }],
+			},
+			include: {
+				chat_user_one: true,
+				chat_user_two: true,
+			},
+		});
+		if (!chats || chats.length === 0) {
+			throw new HttpException('No chats found', HttpStatus.NOT_FOUND);
+		}
+		return chats.map((chat) => ({
+			id: chat.id,
+			chat_user_one_id: chat.chat_user_one_id,
+			chat_user_two_id: chat.chat_user_two_id,
+			chat_user_one: {
+				uin:
+					chat.chat_user_one.uin === uin
+						? chat.chat_user_two.uin
+						: chat.chat_user_one.uin,
+				name: chat.chat_user_one.name,
+				user_name: chat.chat_user_one.user_name,
+				isOnline:
+					chat.chat_user_one.uin === uin
+						? chat.chat_user_two.isOnline
+						: chat.chat_user_one.isOnline,
+				last_seen: chat.chat_user_one.last_seen,
+			},
+			chat_user_two: {
+				uin:
+					chat.chat_user_two.uin === uin
+						? chat.chat_user_one.uin
+						: chat.chat_user_two.uin,
+				name: chat.chat_user_two.name,
+				user_name: chat.chat_user_two.user_name,
+				isOnline:
+					chat.chat_user_two.uin === uin
+						? chat.chat_user_one.isOnline
+						: chat.chat_user_two.isOnline,
+				last_seen:
+					chat.chat_user_two.uin === uin
+						? chat.chat_user_one.last_seen
+						: chat.chat_user_two.last_seen,
+			},
+		}));
+	}
+
 	async addMessage(data: {
 		sender_uin: string;
 		receiver_uin: string;
@@ -26,7 +79,7 @@ export class ChatsService {
 				await this.userService.findUserByUIN(data.receiver_uin),
 			]);
 
-			let chat = await this.prismaService.chat.findFirst({
+			const chat = await this.prismaService.chat.findFirst({
 				where: {
 					OR: [
 						{ chat_user_one_id: sender?.id, chat_user_two_id: receiver?.id },
@@ -39,7 +92,7 @@ export class ChatsService {
 				throw new HttpException('No users found', HttpStatus.BAD_REQUEST);
 			} else {
 				if (!chat) {
-					let chat = await this.prismaService.chat.create({
+					const chat = await this.prismaService.chat.create({
 						data: {
 							chat_user_one_id: String(sender?.id),
 							chat_user_two_id: String(receiver?.id),
@@ -95,5 +148,69 @@ export class ChatsService {
 		} catch (e) {
 			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	async deleteMessage(message_id: string) {
+		try {
+			const message = await this.prismaService.message.findUnique({
+				where: {
+					id: message_id,
+				},
+			});
+
+			if (!message) {
+				throw new HttpException('No message found', HttpStatus.NOT_FOUND);
+			} else {
+				await this.prismaService.message.delete({
+					where: {
+						id: message_id,
+					},
+				});
+
+				return {
+					status: HttpStatus.OK,
+					message: 'Message deleted successfully',
+				};
+			}
+		} catch (e) {
+			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	async getAllMessagesFromChat(uin: string) {
+		const user = await this.userService.findUserByUIN(uin);
+		if (!user) {
+			throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+		}
+
+		const chats = await this.prismaService.chat.findMany({
+			where: {
+				OR: [{ chat_user_one_id: user.id }, { chat_user_two_id: user.id }],
+			},
+			include: {
+				messages: {
+					include: {
+						sended_by: true,
+						received_by: true,
+					},
+				},
+			},
+		});
+
+		if (!chats || chats.length === 0) {
+			throw new HttpException('No chats found', HttpStatus.NOT_FOUND);
+		}
+
+		return chats.map((chat) => ({
+			chat_id: chat.id,
+			messages: chat.messages.map((message) => ({
+				id: message.id,
+				content: message.content,
+				sender: message.sended_by.uin,
+				receiver: message.received_by.uin,
+				created_at: new Date(message.created_at).toLocaleString(),
+				updated_at: new Date(message.updated_at).toLocaleString(),
+			})),
+		}));
 	}
 }

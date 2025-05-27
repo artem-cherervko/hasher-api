@@ -65,10 +65,11 @@ export class ChatsGateway
 				client.disconnect();
 			}
 
+			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 			await this.userService.updateOnlineStatus({
 				uin: uin,
-			});
-			await this.redis.add(`chats:${uin}`, client.id);
+			}),
+				await this.redis.add(`chats:${uin}`, client.id);
 			console.log(`[WS] Client connected: uin=${uin}, socket=${client.id}`);
 		}
 	}
@@ -115,7 +116,12 @@ export class ChatsGateway
 						email: String(receiver?.email),
 					});
 
-					client.emit('message', { status: HttpStatus.OK, message: 'sent' });
+					client.emit('message', {
+						status: HttpStatus.OK,
+						sender: uin,
+						message: data.message,
+						time: await getDate(),
+					});
 
 					return await this.chatsService.addMessage({
 						sender_uin: uin,

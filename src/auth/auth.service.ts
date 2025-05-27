@@ -19,7 +19,7 @@ export class AuthService {
 			{ uin },
 			{
 				secret: this.config.get('JWT_SECRET'),
-				expiresIn: '5m',
+				expiresIn: '1h',
 			},
 		);
 
@@ -128,6 +128,20 @@ export class AuthService {
 			}
 
 			return await this.generateTokens(user.uin);
+		}
+	}
+
+	async getUinFromAccessToken(token: string) {
+		try {
+			const payload = await this.jwt.verifyAsync(token, {
+				secret: this.config.get('JWT_SECRET'),
+			});
+			return payload.uin;
+		} catch (e) {
+			if (e instanceof TokenExpiredError) {
+				throw new HttpException('Token has expired', HttpStatus.UNAUTHORIZED);
+			}
+			throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
 		}
 	}
 }
