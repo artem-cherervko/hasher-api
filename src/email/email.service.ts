@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+	forwardRef,
+	HttpException,
+	HttpStatus,
+	Inject,
+	Injectable,
+} from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { NewMessageDTO, OAuthDTO } from './dto/emails.dto';
 import { UserService } from '../user/user.service';
@@ -9,6 +15,7 @@ import { generateCode } from '../configs/generateOAuthCode';
 export class EmailService {
 	constructor(
 		private readonly emailService: MailerService,
+		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,
 	) {}
 
@@ -36,6 +43,21 @@ export class EmailService {
 				to: data.email,
 				subject: 'OAuth code!',
 				html: `<h1>OAuth code!</h1> <p>Code: ${await generateCode()}</p>`,
+			});
+		} catch (e) {
+			throw new HttpException(
+				`Error while sending email: ${e}`,
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
+	}
+
+	async sendCredentials(data: { uin: string; email: string }) {
+		try {
+			await this.emailService.sendMail({
+				to: data.email,
+				subject: 'Registration information!',
+				html: `<h1>Hello, account successful registered!</h1> <p>UIN: ${data.uin}</p> <p>This UIN you must input in login page.</p> <p><bold>Have a nice day!)</bold></p>`,
 			});
 		} catch (e) {
 			throw new HttpException(

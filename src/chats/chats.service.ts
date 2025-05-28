@@ -177,15 +177,30 @@ export class ChatsService {
 		}
 	}
 
-	async getAllMessagesFromChat(uin: string) {
+	async getAllMessagesFromChat(uin: string, sender: string) {
 		const user = await this.userService.findUserByUIN(uin);
-		if (!user) {
-			throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+		const chat_sender = await this.userService.findUserByUIN(sender);
+
+		if (!user || !chat_sender) {
+			throw new HttpException('Users not found', HttpStatus.NOT_FOUND);
 		}
 
 		const chats = await this.prismaService.chat.findMany({
 			where: {
-				OR: [{ chat_user_one_id: user.id }, { chat_user_two_id: user.id }],
+				AND: [
+					{
+						OR: [
+							{ chat_user_one_id: chat_sender.id },
+							{ chat_user_one_id: user.id },
+						],
+					},
+					{
+						OR: [
+							{ chat_user_two_id: user.id },
+							{ chat_user_two_id: chat_sender.id },
+						],
+					},
+				],
 			},
 			include: {
 				messages: {

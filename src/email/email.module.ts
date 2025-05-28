@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
@@ -22,7 +22,7 @@ import { UserModule } from '../user/user.module';
 				},
 			}),
 		}),
-		UserModule,
+		forwardRef(() => UserModule),
 	],
 	providers: [EmailService],
 	exports: [EmailService],

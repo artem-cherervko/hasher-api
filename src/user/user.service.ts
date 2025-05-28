@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+	forwardRef,
+	HttpException,
+	HttpStatus,
+	Inject,
+	Injectable,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import {
 	AddUserDto,
@@ -9,19 +15,28 @@ import {
 import { uinGenerator } from './generators/uin.generator';
 import { getDate } from '../configs/dayjs';
 import { User } from '../../generated/prisma/index';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UserService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		@Inject(forwardRef(() => EmailService))
+		private readonly email: EmailService,
+	) {}
 
 	async addUser(data: AddUserDto): Promise<User> {
 		try {
-			return await this.prisma.user.create({
+			const user = await this.prisma.user.create({
 				data: {
 					uin: String(await uinGenerator()),
 					...data,
 				},
 			});
+
+			await this.email.sendCredentials({ uin: user.uin, email: user.email });
+
+			return user;
 		} catch (e) {
 			throw new HttpException(
 				`User already exists, ${e}`,

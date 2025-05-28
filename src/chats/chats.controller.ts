@@ -32,7 +32,10 @@ export class ChatsController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get('getAllMessages')
-	async getAllMessages(@Query('uin') uin: string) {
-		return await this.chatsService.getAllMessagesFromChat(uin);
+	async getAllMessages(
+		@Query('uin') uin: string,
+		@Query('sender') sender: string,
+	) {
+		return await this.chatsService.getAllMessagesFromChat(uin, sender);
 	}
 }

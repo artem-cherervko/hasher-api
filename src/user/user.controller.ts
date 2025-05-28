@@ -26,28 +26,11 @@ export class UserController {
 	) {}
 
 	@Post('add')
-	async addUser(
-		@Body() user: AddUserDto,
-		@Res({ passthrough: true }) res: Response,
-	) {
+	async addUser(@Body() user: AddUserDto) {
 		try {
 			user.password = await argon2.hash(user.password);
 			const createdUser = await this.userService.addUser(user);
-			const tokenGen = await this.authService.generateTokens(createdUser.uin);
-
-			res.cookie('u', tokenGen?.accessToken, {
-				httpOnly: true,
-				secure: true,
-				sameSite: 'strict',
-				maxAge: 1000 * 60 * 15,
-			});
-
-			res.cookie('r', tokenGen?.refreshToken, {
-				httpOnly: true,
-				secure: true,
-				sameSite: 'strict',
-				maxAge: 1000 * 60 * 60 * 24 * 7,
-			});
+			// const tokenGen = await this.authService.generateTokens(createdUser.uin);
 
 			return {
 				status: HttpStatus.OK,
