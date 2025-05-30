@@ -24,7 +24,7 @@ export class AuthController {
 		res.clearCookie('r');
 		console.log(uin);
 
-		const user = await this.userService.findUserByUIN(uin);
+		const user = await this.userService.findUserByUIN(String(uin['uin']));
 		if (!user) {
 			throw new UnauthorizedException('User not found');
 		} else {
