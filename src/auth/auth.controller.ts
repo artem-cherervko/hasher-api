@@ -25,8 +25,9 @@ export class AuthController {
 		const user = await this.userService.findUserByUIN(uin);
 		if (!user) {
 			throw new UnauthorizedException('User not found');
+		} else {
+			return await this.authService.generateTokens(user.uin);
 		}
-		return await this.authService.generateTokens(uin);
 	}
 
 	@Post('logout')
