@@ -1,15 +1,31 @@
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	Post,
+	Query,
+	Res,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
+import { UserService } from '../user/user.service';
 
 @Controller('auth')
 export class AuthController {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly authService: AuthService,
+		private readonly userService: UserService,
+	) {}
 
 	@Post('login')
 	async login(@Body() uin: string, @Res({ passthrough: true }) res: Response) {
 		res.clearCookie('u');
 		res.clearCookie('r');
+		const user = await this.userService.findUserByUIN(uin);
+		if (!user) {
+			throw new UnauthorizedException('User not found');
+		}
 		return await this.authService.generateTokens(uin);
 	}
 

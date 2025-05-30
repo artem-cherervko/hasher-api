@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { UserModule } from '../user/user.module';
 
 @Global()
 @Module({
@@ -18,6 +19,7 @@ import { AuthController } from './auth.controller';
 				signOptions: { expiresIn: '15m' },
 			}),
 		}),
+		UserModule,
 	],
 	providers: [AuthService, PrismaService],
 	exports: [AuthService, JwtModule],
