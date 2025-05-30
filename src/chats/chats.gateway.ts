@@ -18,7 +18,7 @@ import { getDate } from '../configs/dayjs';
 
 @WebSocketGateway(3002, {
 	cors: {
-		origin: '*',
+		origin: process.env.ORIGIN,
 	},
 })
 export class ChatsGateway
