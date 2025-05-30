@@ -37,7 +37,10 @@ export class ChatsGateway
 	async afterInit() {
 		const keys = await this.redis.getAll('chats:*');
 		for (const key of keys) {
-			await this.userService.updateOnlineStatus({ uin: key.split(':')[1] });
+			await this.userService.updateOnlineStatus({
+				uin: key.split(':')[1],
+				isOnline: false,
+			});
 			await this.redis.delete(key);
 		}
 		console.log('[WS] Redis cleaned: chats:*');
@@ -68,6 +71,7 @@ export class ChatsGateway
 			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 			await this.userService.updateOnlineStatus({
 				uin: uin,
+				isOnline: true,
 			}),
 				await this.redis.add(`chats:${uin}`, client.id);
 			console.log(`[WS] Client connected: uin=${uin}, socket=${client.id}`);
@@ -80,9 +84,10 @@ export class ChatsGateway
 		for (const key of keys) {
 			const result = await this.redis.getKey(key);
 
-			if (result.status === 200 && result.data === client.id) {
+			if (String(result.data) === client.id) {
 				await this.userService.updateOnlineStatus({
 					uin: key.split(':')[1],
+					isOnline: false,
 				});
 
 				await this.redis.delete(key);
@@ -130,6 +135,13 @@ export class ChatsGateway
 					});
 				} else {
 					this.server.to(user_online.data).emit('message', {
+						status: HttpStatus.OK,
+						sender: uin,
+						message: data.message,
+						time: await getDate(),
+					});
+
+					client.emit('message', {
 						status: HttpStatus.OK,
 						sender: uin,
 						message: data.message,

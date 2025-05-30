@@ -1,4 +1,5 @@
 import {
+	IsBoolean,
 	IsEmail,
 	IsEnum,
 	IsNotEmpty,
@@ -78,4 +79,8 @@ export class UpdateUserStatusDTO {
 	@IsString()
 	@IsOptional()
 	last_seen?: string;
+
+	@IsBoolean()
+	@IsOptional()
+	isOnline?: boolean;
 }

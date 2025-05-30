@@ -155,36 +155,13 @@ export class UserService {
 			} else {
 				const date = await getDate();
 
-				if (user.isOnline === true) {
-					await this.prisma.user.update({
-						where: {
-							uin: data.uin,
-						},
-						data: {
-							isOnline: false,
-							last_seen: date,
-						},
-					});
-
-					return {
-						status: HttpStatus.OK,
-						response: 'Updated successfully',
-					};
-				} else {
-					await this.prisma.user.update({
-						where: {
-							uin: data.uin,
-						},
-						data: {
-							isOnline: true,
-							last_seen: date,
-						},
-					});
-					return {
-						status: HttpStatus.OK,
-						response: 'Updated successfully',
-					};
-				}
+				await this.prisma.user.update({
+					where: { uin: data.uin },
+					data: {
+						isOnline: data.isOnline,
+						last_seen: date,
+					},
+				});
 			}
 		} catch (e) {
 			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);

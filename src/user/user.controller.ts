@@ -8,12 +8,10 @@ import {
 	Patch,
 	Post,
 	Query,
-	Res,
 	UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AddUserDto, DeleteUserDto, UpdateUserDto } from './dto/user.dto';
-import { Response } from 'express';
 import * as argon2 from 'argon2';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/guards/jwt.auth';
