@@ -98,7 +98,7 @@ export class ChatsService {
 							chat_user_two_id: String(receiver?.id),
 						},
 					});
-					await this.prismaService.message.create({
+					const message = await this.prismaService.message.create({
 						data: {
 							chat_id: chat.id,
 							sended_by_id: String(sender?.id),
@@ -106,8 +106,9 @@ export class ChatsService {
 							content: data.message,
 						},
 					});
+					return message;
 				} else {
-					await this.prismaService.message.create({
+					const message = await this.prismaService.message.create({
 						data: {
 							chat_id: chat.id,
 							sended_by_id: String(sender?.id),
@@ -115,16 +116,25 @@ export class ChatsService {
 							content: data.message,
 						},
 					});
+					return message;
 				}
 			}
 		}
 	}
 
 	async updateMessage(data: UpdateMessageDTO) {
+		console.log(data.new_text['new_text']);
 		try {
-			const message = await this.prismaService.message.findUnique({
+			const message = await this.prismaService.chat.findFirst({
 				where: {
-					id: data.id,
+					messages: {
+						some: {
+							id: data.id,
+						},
+					},
+				},
+				include: {
+					messages: true,
 				},
 			});
 
@@ -133,10 +143,10 @@ export class ChatsService {
 			} else {
 				await this.prismaService.message.update({
 					where: {
-						id: data.id,
+						id: message.messages.find((message) => message.id === data.id)?.id,
 					},
 					data: {
-						content: data.new_text,
+						content: data.new_text['new_text'],
 					},
 				});
 
@@ -152,18 +162,28 @@ export class ChatsService {
 
 	async deleteMessage(message_id: string) {
 		try {
-			const message = await this.prismaService.message.findUnique({
+			const message = await this.prismaService.chat.findFirst({
 				where: {
-					id: message_id,
+					messages: {
+						some: {
+							id: message_id,
+						},
+					},
+				},
+				include: {
+					messages: true,
 				},
 			});
 
 			if (!message) {
 				throw new HttpException('No message found', HttpStatus.NOT_FOUND);
 			} else {
+				const message_to_delete = message?.messages.find(
+					(message) => message.id === message_id,
+				);
 				await this.prismaService.message.delete({
 					where: {
-						id: message_id,
+						id: message_to_delete?.id,
 					},
 				});
 

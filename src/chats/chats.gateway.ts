@@ -114,6 +114,11 @@ export class ChatsGateway
 				const user_online = await this.redis.getKey(
 					`chats:${data.receiver_uin}`,
 				);
+				const message = await this.chatsService.addMessage({
+					sender_uin: uin,
+					receiver_uin: data.receiver_uin,
+					message: data.message,
+				});
 				if (user_online.data === 'null') {
 					await this.email.sendNewMessage({
 						sender_uin: uin,
@@ -124,19 +129,17 @@ export class ChatsGateway
 					client.emit('message', {
 						status: HttpStatus.OK,
 						sender: uin,
+						message_id: message.id,
 						message: data.message,
 						time: await getDate(),
 					});
 
-					return await this.chatsService.addMessage({
-						sender_uin: uin,
-						receiver_uin: data.receiver_uin,
-						message: data.message,
-					});
+					return message;
 				} else {
 					this.server.to(user_online.data).emit('message', {
 						status: HttpStatus.OK,
 						sender: uin,
+						message_id: message.id,
 						message: data.message,
 						time: await getDate(),
 					});
@@ -144,15 +147,12 @@ export class ChatsGateway
 					client.emit('message', {
 						status: HttpStatus.OK,
 						sender: uin,
+						message_id: message.id,
 						message: data.message,
 						time: await getDate(),
 					});
 
-					return await this.chatsService.addMessage({
-						sender_uin: uin,
-						receiver_uin: data.receiver_uin,
-						message: data.message,
-					});
+					return message;
 				}
 			}
 		} catch (e) {
