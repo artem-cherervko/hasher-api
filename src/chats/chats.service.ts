@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { PrismaService } from '../prisma.service';
 import { UpdateMessageDTO } from './dto/chats.dto';
-import { getDate } from 'src/configs/dayjs';
+import { getDate, getDateObject } from 'src/configs/dayjs';
 
 @Injectable()
 export class ChatsService {
@@ -105,6 +105,8 @@ export class ChatsService {
 							sended_by_id: String(sender?.id),
 							received_by_id: String(receiver?.id),
 							content: data.message,
+							created_at: await getDateObject(),
+							updated_at: await getDateObject(),
 						},
 					});
 					return message;
@@ -115,6 +117,8 @@ export class ChatsService {
 							sended_by_id: String(sender?.id),
 							received_by_id: String(receiver?.id),
 							content: data.message,
+							created_at: await getDateObject(),
+							updated_at: await getDateObject(),
 						},
 					});
 					return message;
@@ -146,8 +150,8 @@ export class ChatsService {
 						id: message.messages.find((message) => message.id === data.id)?.id,
 					},
 					data: {
-						content: data.new_text['new_text'],
-						updated_at: new Date(await getDate()),
+						content: `${data.new_text['new_text']}\n\nupd: ${String(await getDate()).split(' ')[1]}`,
+						updated_at: await getDateObject(),
 					},
 				});
 

@@ -8,3 +8,7 @@ dayjs.extend(timezone);
 export async function getDate() {
 	return dayjs().tz('Europe/Kiev').format('YYYY-MM-DD HH:mm:ss').toString();
 }
+
+export async function getDateObject() {
+	return dayjs().tz('Europe/Kiev').toDate();
+}
