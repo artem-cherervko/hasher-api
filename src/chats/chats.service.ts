@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { PrismaService } from '../prisma.service';
 import { UpdateMessageDTO } from './dto/chats.dto';
+import { getDate } from 'src/configs/dayjs';
 
 @Injectable()
 export class ChatsService {
@@ -123,7 +124,6 @@ export class ChatsService {
 	}
 
 	async updateMessage(data: UpdateMessageDTO) {
-		console.log(data.new_text['new_text']);
 		try {
 			const message = await this.prismaService.chat.findFirst({
 				where: {
@@ -147,6 +147,7 @@ export class ChatsService {
 					},
 					data: {
 						content: data.new_text['new_text'],
+						updated_at: new Date(await getDate()),
 					},
 				});
 
