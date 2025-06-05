@@ -91,7 +91,7 @@ export class UserService {
 
 	async updateUser(user: UpdateUserDto, uin: string) {
 		try {
-			const { password, ...safeData } = user as Record<string, any>;
+			const { password, role, ...safeData } = user as Record<string, any>;
 
 			await this.prisma.user.update({
 				where: { uin },

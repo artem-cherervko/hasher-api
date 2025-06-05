@@ -38,4 +38,9 @@ export class ChatsController {
 	) {
 		return await this.chatsService.getAllMessagesFromChat(uin, sender);
 	}
+
+	@Get('getChatUserName')
+	async getChatUserName(@Query('uin') uin: string) {
+		return await this.chatsService.getChatUserName(uin);
+	}
 }

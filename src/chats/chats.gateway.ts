@@ -35,7 +35,7 @@ export class ChatsGateway
 	server: Server;
 
 	async afterInit() {
-		const keys = await this.redis.getAll('chats:*');
+		const keys = await this.redis.getAll(`${process.env.REDIS_PREFIX}:*`);
 		for (const key of keys) {
 			await this.userService.updateOnlineStatus({
 				uin: key.split(':')[1],
@@ -43,7 +43,7 @@ export class ChatsGateway
 			});
 			await this.redis.delete(key);
 		}
-		console.log('[WS] Redis cleaned: chats:*');
+		console.log(`[WS] Redis cleaned: ${process.env.REDIS_PREFIX}:*`);
 	}
 
 	async handleConnection(client: Socket) {
@@ -79,7 +79,7 @@ export class ChatsGateway
 	}
 
 	async handleDisconnect(client: Socket) {
-		const keys = await this.redis.getAll('chats:*');
+		const keys = await this.redis.getAll(`${process.env.REDIS_PREFIX}:*`);
 
 		for (const key of keys) {
 			const result = await this.redis.getKey(key);

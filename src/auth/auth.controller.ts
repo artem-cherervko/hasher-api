@@ -22,7 +22,6 @@ export class AuthController {
 	async login(@Body() uin: string, @Res({ passthrough: true }) res: Response) {
 		res.clearCookie('u');
 		res.clearCookie('r');
-		console.log(uin);
 
 		const user = await this.userService.findUserByUIN(String(uin['uin']));
 		if (!user) {
