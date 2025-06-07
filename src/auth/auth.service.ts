@@ -136,7 +136,7 @@ export class AuthService {
 			const payload = await this.jwt.verifyAsync(token, {
 				secret: this.config.get('JWT_SECRET'),
 			});
-			return payload.uin;
+			return payload.uin as string;
 		} catch (e) {
 			if (e instanceof TokenExpiredError) {
 				throw new HttpException('Token has expired', HttpStatus.UNAUTHORIZED);

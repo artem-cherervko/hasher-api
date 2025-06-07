@@ -2,7 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { PrismaService } from '../prisma.service';
 import { UpdateMessageDTO } from './dto/chats.dto';
-import { getDate, getDateObject } from 'src/configs/dayjs';
+import { getDateObject } from 'src/configs/dayjs';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class ChatsService {
@@ -150,7 +151,8 @@ export class ChatsService {
 						id: message.messages.find((message) => message.id === data.id)?.id,
 					},
 					data: {
-						content: `${data.new_text['new_text']}\n\nupd: ${String(await getDate()).split(' ')[1]}`,
+						content: data.new_text['new_text'],
+						is_edited: true,
 						updated_at: await getDateObject(),
 					},
 				});
@@ -241,17 +243,23 @@ export class ChatsService {
 			throw new HttpException('No chats found', HttpStatus.NOT_FOUND);
 		}
 
-		return chats.map((chat) => ({
-			chat_id: chat.id,
-			messages: chat.messages.map((message) => ({
-				id: message.id,
-				content: message.content,
-				sender: message.sended_by.uin,
-				receiver: message.received_by.uin,
-				created_at: new Date(message.created_at).toLocaleString(),
-				updated_at: new Date(message.updated_at).toLocaleString(),
+		return Promise.all(
+			chats.map(async (chat) => ({
+				chat_id: chat.id,
+				messages: await Promise.all(
+					chat.messages.map((message) => ({
+						id: message.id,
+						content: message.content,
+						sender: message.sended_by.uin,
+						receiver: message.received_by.uin,
+						is_read: message.is_read,
+						is_edited: message.is_edited,
+						created_at: dayjs(message.created_at).format('YYYY.MM.DD HH:mm:ss'),
+						updated_at: dayjs(message.updated_at).format('YYYY.MM.DD HH:mm:ss'),
+					})),
+				),
 			})),
-		}));
+		);
 	}
 
 	async getChatUserName(uin: string) {
@@ -266,6 +274,51 @@ export class ChatsService {
 			return user.name;
 		} catch (e) {
 			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	async readAllMessages(chat_with_uin: string, uin: string) {
+		const user = await this.userService.findUserByUIN(uin);
+		const chat_sender = await this.userService.findUserByUIN(chat_with_uin);
+
+		if (!user || !chat_sender) {
+			throw new HttpException('Users not found', HttpStatus.NOT_FOUND);
+		}
+
+		const chat = await this.prismaService.chat.findFirst({
+			where: {
+				OR: [
+					{ chat_user_one_id: user.id, chat_user_two_id: chat_sender.id },
+					{ chat_user_one_id: chat_sender.id, chat_user_two_id: user.id },
+				],
+			},
+		});
+
+		if (!chat) {
+			throw new HttpException('Chat not found', HttpStatus.NOT_FOUND);
+		}
+
+		try {
+			await this.prismaService.message.updateMany({
+				where: {
+					chat_id: chat.id,
+					sended_by_id: chat_sender.id,
+					received_by_id: user.id,
+				},
+				data: {
+					is_read: true,
+				},
+			});
+
+			return {
+				status: HttpStatus.OK,
+				message: 'Messages read successfully',
+			};
+		} catch (e) {
+			throw new HttpException(
+				`Error ${e.message}`,
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
 		}
 	}
 }

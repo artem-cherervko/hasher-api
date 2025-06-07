@@ -112,7 +112,7 @@ export class ChatsGateway
 				client.disconnect();
 			} else {
 				const user_online = await this.redis.getKey(
-					`chats:${data.receiver_uin}`,
+					`${process.env.REDIS_PREFIX}:${data.receiver_uin}`,
 				);
 				const message = await this.chatsService.addMessage({
 					sender_uin: uin,
@@ -157,6 +157,68 @@ export class ChatsGateway
 			}
 		} catch (e) {
 			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@SubscribeMessage('deleteMessage')
+	async deleteMessage(
+		@Body() data: { chat_with_uin: string; uin: string },
+		@ConnectedSocket() client: Socket,
+	) {
+		const uin = client.handshake.query?.uin as string;
+
+		const user = await this.userService.findUserByUIN(uin);
+		const receiver = await this.userService.findUserByUIN(data.chat_with_uin);
+		if (!user || !receiver) {
+			client.emit('Sender uin or receiver uin not found');
+			client.disconnect();
+		} else {
+			const user_online = await this.redis.getKey(
+				`${process.env.REDIS_PREFIX}:${data.chat_with_uin}`,
+			);
+
+			if (user_online.data === 'null') {
+				client.emit('delete', {
+					status: HttpStatus.OK,
+					message: 'Deleted',
+				});
+			} else {
+				this.server.to(user_online.data).emit('delete', {
+					status: HttpStatus.OK,
+					message: 'Deleted',
+				});
+			}
+		}
+	}
+
+	@SubscribeMessage('editMessage')
+	async editMessage(
+		@Body() data: { chat_with_uin: string; uin: string },
+		@ConnectedSocket() client: Socket,
+	) {
+		const uin = client.handshake.query?.uin as string;
+
+		const user = await this.userService.findUserByUIN(uin);
+		const receiver = await this.userService.findUserByUIN(data.chat_with_uin);
+		if (!user || !receiver) {
+			client.emit('Sender uin or receiver uin not found');
+			client.disconnect();
+		} else {
+			const user_online = await this.redis.getKey(
+				`${process.env.REDIS_PREFIX}:${data.chat_with_uin}`,
+			);
+
+			if (user_online.data === 'null') {
+				client.emit('edit', {
+					status: HttpStatus.OK,
+					message: 'Edited',
+				});
+			} else {
+				this.server.to(user_online.data).emit('edit', {
+					status: HttpStatus.OK,
+					message: 'Edited',
+				});
+			}
 		}
 	}
 }

@@ -43,4 +43,13 @@ export class ChatsController {
 	async getChatUserName(@Query('uin') uin: string) {
 		return await this.chatsService.getChatUserName(uin);
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Patch('readAllMessages')
+	async readAllMessages(
+		@Query('chat_with_uin') chat_with_uin: string,
+		@Query('uin') uin: string,
+	) {
+		return await this.chatsService.readAllMessages(chat_with_uin, uin);
+	}
 }

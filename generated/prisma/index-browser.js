@@ -149,6 +149,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   sended_by_id: 'sended_by_id',
   received_by_id: 'received_by_id',
   content: 'content',
+  is_read: 'is_read',
+  is_edited: 'is_edited',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };

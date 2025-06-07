@@ -3511,6 +3511,8 @@ export namespace Prisma {
     sended_by_id: string | null
     received_by_id: string | null
     content: string | null
+    is_read: boolean | null
+    is_edited: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -3521,6 +3523,8 @@ export namespace Prisma {
     sended_by_id: string | null
     received_by_id: string | null
     content: string | null
+    is_read: boolean | null
+    is_edited: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -3531,6 +3535,8 @@ export namespace Prisma {
     sended_by_id: number
     received_by_id: number
     content: number
+    is_read: number
+    is_edited: number
     created_at: number
     updated_at: number
     _all: number
@@ -3543,6 +3549,8 @@ export namespace Prisma {
     sended_by_id?: true
     received_by_id?: true
     content?: true
+    is_read?: true
+    is_edited?: true
     created_at?: true
     updated_at?: true
   }
@@ -3553,6 +3561,8 @@ export namespace Prisma {
     sended_by_id?: true
     received_by_id?: true
     content?: true
+    is_read?: true
+    is_edited?: true
     created_at?: true
     updated_at?: true
   }
@@ -3563,6 +3573,8 @@ export namespace Prisma {
     sended_by_id?: true
     received_by_id?: true
     content?: true
+    is_read?: true
+    is_edited?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -3646,6 +3658,8 @@ export namespace Prisma {
     sended_by_id: string
     received_by_id: string
     content: string
+    is_read: boolean
+    is_edited: boolean
     created_at: Date
     updated_at: Date
     _count: MessageCountAggregateOutputType | null
@@ -3673,6 +3687,8 @@ export namespace Prisma {
     sended_by_id?: boolean
     received_by_id?: boolean
     content?: boolean
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: boolean
     updated_at?: boolean
     chat?: boolean | ChatDefaultArgs<ExtArgs>
@@ -3686,6 +3702,8 @@ export namespace Prisma {
     sended_by_id?: boolean
     received_by_id?: boolean
     content?: boolean
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: boolean
     updated_at?: boolean
     chat?: boolean | ChatDefaultArgs<ExtArgs>
@@ -3699,6 +3717,8 @@ export namespace Prisma {
     sended_by_id?: boolean
     received_by_id?: boolean
     content?: boolean
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: boolean
     updated_at?: boolean
     chat?: boolean | ChatDefaultArgs<ExtArgs>
@@ -3712,11 +3732,13 @@ export namespace Prisma {
     sended_by_id?: boolean
     received_by_id?: boolean
     content?: boolean
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "chat_id" | "sended_by_id" | "received_by_id" | "content" | "created_at" | "updated_at", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "chat_id" | "sended_by_id" | "received_by_id" | "content" | "is_read" | "is_edited" | "created_at" | "updated_at", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chat?: boolean | ChatDefaultArgs<ExtArgs>
     sended_by?: boolean | UserDefaultArgs<ExtArgs>
@@ -3746,6 +3768,8 @@ export namespace Prisma {
       sended_by_id: string
       received_by_id: string
       content: string
+      is_read: boolean
+      is_edited: boolean
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["message"]>
@@ -4179,6 +4203,8 @@ export namespace Prisma {
     readonly sended_by_id: FieldRef<"Message", 'String'>
     readonly received_by_id: FieldRef<"Message", 'String'>
     readonly content: FieldRef<"Message", 'String'>
+    readonly is_read: FieldRef<"Message", 'Boolean'>
+    readonly is_edited: FieldRef<"Message", 'Boolean'>
     readonly created_at: FieldRef<"Message", 'DateTime'>
     readonly updated_at: FieldRef<"Message", 'DateTime'>
   }
@@ -4644,6 +4670,8 @@ export namespace Prisma {
     sended_by_id: 'sended_by_id',
     received_by_id: 'received_by_id',
     content: 'content',
+    is_read: 'is_read',
+    is_edited: 'is_edited',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -4915,6 +4943,8 @@ export namespace Prisma {
     sended_by_id?: StringFilter<"Message"> | string
     received_by_id?: StringFilter<"Message"> | string
     content?: StringFilter<"Message"> | string
+    is_read?: BoolFilter<"Message"> | boolean
+    is_edited?: BoolFilter<"Message"> | boolean
     created_at?: DateTimeFilter<"Message"> | Date | string
     updated_at?: DateTimeFilter<"Message"> | Date | string
     chat?: XOR<ChatScalarRelationFilter, ChatWhereInput>
@@ -4928,6 +4958,8 @@ export namespace Prisma {
     sended_by_id?: SortOrder
     received_by_id?: SortOrder
     content?: SortOrder
+    is_read?: SortOrder
+    is_edited?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     chat?: ChatOrderByWithRelationInput
@@ -4944,6 +4976,8 @@ export namespace Prisma {
     sended_by_id?: StringFilter<"Message"> | string
     received_by_id?: StringFilter<"Message"> | string
     content?: StringFilter<"Message"> | string
+    is_read?: BoolFilter<"Message"> | boolean
+    is_edited?: BoolFilter<"Message"> | boolean
     created_at?: DateTimeFilter<"Message"> | Date | string
     updated_at?: DateTimeFilter<"Message"> | Date | string
     chat?: XOR<ChatScalarRelationFilter, ChatWhereInput>
@@ -4957,6 +4991,8 @@ export namespace Prisma {
     sended_by_id?: SortOrder
     received_by_id?: SortOrder
     content?: SortOrder
+    is_read?: SortOrder
+    is_edited?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: MessageCountOrderByAggregateInput
@@ -4973,6 +5009,8 @@ export namespace Prisma {
     sended_by_id?: StringWithAggregatesFilter<"Message"> | string
     received_by_id?: StringWithAggregatesFilter<"Message"> | string
     content?: StringWithAggregatesFilter<"Message"> | string
+    is_read?: BoolWithAggregatesFilter<"Message"> | boolean
+    is_edited?: BoolWithAggregatesFilter<"Message"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"Message"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Message"> | Date | string
   }
@@ -5159,6 +5197,8 @@ export namespace Prisma {
   export type MessageCreateInput = {
     id?: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     chat: ChatCreateNestedOneWithoutMessagesInput
@@ -5172,6 +5212,8 @@ export namespace Prisma {
     sended_by_id: string
     received_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -5179,6 +5221,8 @@ export namespace Prisma {
   export type MessageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     chat?: ChatUpdateOneRequiredWithoutMessagesNestedInput
@@ -5192,6 +5236,8 @@ export namespace Prisma {
     sended_by_id?: StringFieldUpdateOperationsInput | string
     received_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5202,6 +5248,8 @@ export namespace Prisma {
     sended_by_id: string
     received_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -5209,6 +5257,8 @@ export namespace Prisma {
   export type MessageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5219,6 +5269,8 @@ export namespace Prisma {
     sended_by_id?: StringFieldUpdateOperationsInput | string
     received_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5460,6 +5512,8 @@ export namespace Prisma {
     sended_by_id?: SortOrder
     received_by_id?: SortOrder
     content?: SortOrder
+    is_read?: SortOrder
+    is_edited?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -5470,6 +5524,8 @@ export namespace Prisma {
     sended_by_id?: SortOrder
     received_by_id?: SortOrder
     content?: SortOrder
+    is_read?: SortOrder
+    is_edited?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -5480,6 +5536,8 @@ export namespace Prisma {
     sended_by_id?: SortOrder
     received_by_id?: SortOrder
     content?: SortOrder
+    is_read?: SortOrder
+    is_edited?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -5935,6 +5993,8 @@ export namespace Prisma {
   export type MessageCreateWithoutSended_byInput = {
     id?: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     chat: ChatCreateNestedOneWithoutMessagesInput
@@ -5946,6 +6006,8 @@ export namespace Prisma {
     chat_id: string
     received_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -5963,6 +6025,8 @@ export namespace Prisma {
   export type MessageCreateWithoutReceived_byInput = {
     id?: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     chat: ChatCreateNestedOneWithoutMessagesInput
@@ -5974,6 +6038,8 @@ export namespace Prisma {
     chat_id: string
     sended_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6061,6 +6127,8 @@ export namespace Prisma {
     sended_by_id?: StringFilter<"Message"> | string
     received_by_id?: StringFilter<"Message"> | string
     content?: StringFilter<"Message"> | string
+    is_read?: BoolFilter<"Message"> | boolean
+    is_edited?: BoolFilter<"Message"> | boolean
     created_at?: DateTimeFilter<"Message"> | Date | string
     updated_at?: DateTimeFilter<"Message"> | Date | string
   }
@@ -6212,6 +6280,8 @@ export namespace Prisma {
   export type MessageCreateWithoutChatInput = {
     id?: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     sended_by: UserCreateNestedOneWithoutSended_messagesInput
@@ -6223,6 +6293,8 @@ export namespace Prisma {
     sended_by_id: string
     received_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6584,6 +6656,8 @@ export namespace Prisma {
     chat_id: string
     received_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6593,6 +6667,8 @@ export namespace Prisma {
     chat_id: string
     sended_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6612,6 +6688,8 @@ export namespace Prisma {
   export type MessageUpdateWithoutSended_byInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     chat?: ChatUpdateOneRequiredWithoutMessagesNestedInput
@@ -6623,6 +6701,8 @@ export namespace Prisma {
     chat_id?: StringFieldUpdateOperationsInput | string
     received_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6632,6 +6712,8 @@ export namespace Prisma {
     chat_id?: StringFieldUpdateOperationsInput | string
     received_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6639,6 +6721,8 @@ export namespace Prisma {
   export type MessageUpdateWithoutReceived_byInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     chat?: ChatUpdateOneRequiredWithoutMessagesNestedInput
@@ -6650,6 +6734,8 @@ export namespace Prisma {
     chat_id?: StringFieldUpdateOperationsInput | string
     sended_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6659,6 +6745,8 @@ export namespace Prisma {
     chat_id?: StringFieldUpdateOperationsInput | string
     sended_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6708,6 +6796,8 @@ export namespace Prisma {
     sended_by_id: string
     received_by_id: string
     content: string
+    is_read?: boolean
+    is_edited?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -6715,6 +6805,8 @@ export namespace Prisma {
   export type MessageUpdateWithoutChatInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     sended_by?: UserUpdateOneRequiredWithoutSended_messagesNestedInput
@@ -6726,6 +6818,8 @@ export namespace Prisma {
     sended_by_id?: StringFieldUpdateOperationsInput | string
     received_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6735,6 +6829,8 @@ export namespace Prisma {
     sended_by_id?: StringFieldUpdateOperationsInput | string
     received_by_id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    is_read?: BoolFieldUpdateOperationsInput | boolean
+    is_edited?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
