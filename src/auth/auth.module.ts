@@ -5,6 +5,8 @@ import { PrismaService } from '../prisma.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
+import { EmailModule } from 'src/email/email.module';
+import { RedisModule } from 'src/redis/redis.module';
 
 @Global()
 @Module({
@@ -20,6 +22,8 @@ import { UserModule } from '../user/user.module';
 			}),
 		}),
 		UserModule,
+		EmailModule,
+		RedisModule,
 	],
 	providers: [AuthService, PrismaService],
 	exports: [AuthService, JwtModule],

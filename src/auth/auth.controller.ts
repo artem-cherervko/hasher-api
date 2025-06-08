@@ -57,4 +57,24 @@ export class AuthController {
 	async getUin(@Query('token') token: string) {
 		return await this.authService.getUinFromAccessToken(token);
 	}
+
+	@Get('sendOAuthCode')
+	async sendOAuthCode(@Query('email') email: string) {
+		const user = await this.userService.findUserByUIN(email);
+		if (!user) {
+			return await this.authService.sendOAuthCode(email);
+		} else {
+			return await this.authService.sendOAuthCode(user.email);
+		}
+	}
+
+	@Get('checkOAuth')
+	async checkOAuth(@Query('email') email: string, @Query('code') code: string) {
+		const user = await this.userService.findUserByUIN(email);
+		if (!user) {
+			return await this.authService.checkOAuth(email, code);
+		} else {
+			return await this.authService.checkOAuth(user.email, code);
+		}
+	}
 }

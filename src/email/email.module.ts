@@ -3,6 +3,7 @@ import { EmailService } from './email.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { UserModule } from '../user/user.module';
+import { RedisModule } from 'src/redis/redis.module';
 
 @Module({
 	imports: [
@@ -23,6 +24,7 @@ import { UserModule } from '../user/user.module';
 			}),
 		}),
 		forwardRef(() => UserModule),
+		RedisModule,
 	],
 	providers: [EmailService],
 	exports: [EmailService],

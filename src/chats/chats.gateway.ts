@@ -43,7 +43,7 @@ export class ChatsGateway
 			});
 			await this.redis.delete(key);
 		}
-		console.log(`[WS] Redis cleaned: ${process.env.REDIS_PREFIX}:*`);
+		// console.log(`[WS] Redis cleaned: ${process.env.REDIS_PREFIX}:*`);
 	}
 
 	async handleConnection(client: Socket) {
@@ -73,8 +73,8 @@ export class ChatsGateway
 				uin: uin,
 				isOnline: true,
 			}),
-				await this.redis.add(`chats:${uin}`, client.id);
-			console.log(`[WS] Client connected: uin=${uin}, socket=${client.id}`);
+				await this.redis.add(`${process.env.REDIS_PREFIX}:${uin}`, client.id);
+			// console.log(`[WS] Client connected: uin=${uin}, socket=${client.id}`);
 		}
 	}
 
@@ -91,7 +91,7 @@ export class ChatsGateway
 				});
 
 				await this.redis.delete(key);
-				console.log(`[WS] Client disconnected: removed key ${key}`);
+				// console.log(`[WS] Client disconnected: removed key ${key}`);
 				break;
 			}
 		}

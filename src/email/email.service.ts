@@ -10,6 +10,7 @@ import { NewMessageDTO, OAuthDTO } from './dto/emails.dto';
 import { UserService } from '../user/user.service';
 import { getDate } from '../configs/dayjs';
 import { generateCode } from '../configs/generateOAuthCode';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class EmailService {
@@ -17,6 +18,7 @@ export class EmailService {
 		private readonly emailService: MailerService,
 		@Inject(forwardRef(() => UserService))
 		private readonly userService: UserService,
+		private readonly redis: RedisService,
 	) {}
 
 	async sendNewMessage(data: NewMessageDTO) {
@@ -39,11 +41,20 @@ export class EmailService {
 
 	async sendOAuth(data: OAuthDTO) {
 		try {
+			const code = await generateCode();
+			await this.redis.add(
+				`${process.env.REDIS_PREFIX}:${data.email}`,
+				String(code),
+			);
 			await this.emailService.sendMail({
 				to: data.email,
 				subject: 'OAuth code!',
-				html: `<h1>OAuth code!</h1> <p>Code: ${await generateCode()}</p>`,
+				html: `<h1>OAuth code!</h1> <p>Code: ${code}</p>`,
 			});
+			return {
+				status: HttpStatus.OK,
+				message: 'Email sent',
+			};
 		} catch (e) {
 			throw new HttpException(
 				`Error while sending email: ${e}`,

@@ -3,7 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
-import { Request } from 'express';
+import e, { Request } from 'express';
+import { EmailService } from 'src/email/email.service';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +13,8 @@ export class AuthService {
 		private readonly config: ConfigService,
 		private readonly prisma: PrismaService,
 		public readonly jwt: JwtService,
+		private readonly emailService: EmailService,
+		private readonly redis: RedisService,
 	) {}
 
 	async generateTokens(uin: any) {
@@ -143,5 +147,24 @@ export class AuthService {
 			}
 			throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
 		}
+	}
+
+	async sendOAuthCode(email: string) {
+		const email_response = await this.emailService.sendOAuth({ email });
+		return email_response;
+	}
+
+	async checkOAuth(email: string, code: string) {
+		const redisCode = await this.redis.getKey(
+			`${process.env.REDIS_PREFIX}:${email}`,
+		);
+		if (redisCode.data === code) {
+			await this.redis.delete(`${process.env.REDIS_PREFIX}:${email}`);
+			return {
+				status: HttpStatus.OK,
+				message: 'Code is valid',
+			};
+		}
+		throw new HttpException('Invalid code', HttpStatus.BAD_REQUEST);
 	}
 }
