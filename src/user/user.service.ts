@@ -167,4 +167,22 @@ export class UserService {
 			throw new HttpException(`Error ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	async findUser(user_name: string | null) {
+		try {
+			if (user_name !== null) {
+				const user = await this.prisma.user.findUnique({
+					where: { user_name: user_name },
+				});
+
+				if (!user) {
+					throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+				}
+
+				return user.uin;
+			}
+		} catch (e) {
+			throw new HttpException(String(e), HttpStatus.BAD_REQUEST);
+		}
+	}
 }

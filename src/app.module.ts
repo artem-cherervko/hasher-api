@@ -5,6 +5,8 @@ import { EmailModule } from './email/email.module';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from './redis/redis.module';
 import { AuthModule } from './auth/auth.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
 	imports: [
@@ -15,5 +17,7 @@ import { AuthModule } from './auth/auth.module';
 		RedisModule,
 		AuthModule,
 	],
+	controllers: [AppController],
+	providers: [AppService],
 })
 export class AppModule {}

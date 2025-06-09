@@ -105,4 +105,10 @@ export class UserController {
 			throw new HttpException(`Error: ${e}`, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('findUser')
+	async findUser(@Query() data: { user_name: string | null }) {
+		return await this.userService.findUser(data.user_name);
+	}
 }
