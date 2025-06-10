@@ -37,16 +37,31 @@ export namespace $Enums {
   dev: 'dev',
   admin: 'admin',
   helper: 'helper',
+  verified: 'verified',
   user: 'user'
 };
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const Premium: {
+  hasher_royal: 'hasher_royal',
+  hasher_gold: 'hasher_gold',
+  hasher_enterprise: 'hasher_enterprise',
+  none: 'none'
+};
+
+export type Premium = (typeof Premium)[keyof typeof Premium]
 
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type Premium = $Enums.Premium
+
+export const Premium: typeof $Enums.Premium
 
 /**
  * ##  Prisma Client ʲˢ
@@ -260,8 +275,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.8.2
-   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+   * Prisma Client JS version: 6.9.0
+   * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
    */
   export type PrismaVersion = {
     client: string
@@ -1180,6 +1195,8 @@ export namespace Prisma {
     isOnline: boolean | null
     last_seen: string | null
     role: $Enums.Role | null
+    premium: $Enums.Premium | null
+    premium_until: Date | null
     isBlocked: boolean | null
   }
 
@@ -1195,6 +1212,8 @@ export namespace Prisma {
     isOnline: boolean | null
     last_seen: string | null
     role: $Enums.Role | null
+    premium: $Enums.Premium | null
+    premium_until: Date | null
     isBlocked: boolean | null
   }
 
@@ -1210,6 +1229,8 @@ export namespace Prisma {
     isOnline: number
     last_seen: number
     role: number
+    premium: number
+    premium_until: number
     isBlocked: number
     blocked_users: number
     _all: number
@@ -1228,6 +1249,8 @@ export namespace Prisma {
     isOnline?: true
     last_seen?: true
     role?: true
+    premium?: true
+    premium_until?: true
     isBlocked?: true
   }
 
@@ -1243,6 +1266,8 @@ export namespace Prisma {
     isOnline?: true
     last_seen?: true
     role?: true
+    premium?: true
+    premium_until?: true
     isBlocked?: true
   }
 
@@ -1258,6 +1283,8 @@ export namespace Prisma {
     isOnline?: true
     last_seen?: true
     role?: true
+    premium?: true
+    premium_until?: true
     isBlocked?: true
     blocked_users?: true
     _all?: true
@@ -1347,6 +1374,8 @@ export namespace Prisma {
     isOnline: boolean
     last_seen: string
     role: $Enums.Role
+    premium: $Enums.Premium
+    premium_until: Date
     isBlocked: boolean
     blocked_users: string[]
     _count: UserCountAggregateOutputType | null
@@ -1380,6 +1409,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: boolean
     role?: boolean
+    premium?: boolean
+    premium_until?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
     sended_messages?: boolean | User$sended_messagesArgs<ExtArgs>
@@ -1401,6 +1432,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: boolean
     role?: boolean
+    premium?: boolean
+    premium_until?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1417,6 +1450,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: boolean
     role?: boolean
+    premium?: boolean
+    premium_until?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1433,11 +1468,13 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: boolean
     role?: boolean
+    premium?: boolean
+    premium_until?: boolean
     isBlocked?: boolean
     blocked_users?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "uin" | "user_name" | "photo_url" | "email" | "password" | "refresh_token" | "isOnline" | "last_seen" | "role" | "isBlocked" | "blocked_users", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "uin" | "user_name" | "photo_url" | "email" | "password" | "refresh_token" | "isOnline" | "last_seen" | "role" | "premium" | "premium_until" | "isBlocked" | "blocked_users", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sended_messages?: boolean | User$sended_messagesArgs<ExtArgs>
     received_messages?: boolean | User$received_messagesArgs<ExtArgs>
@@ -1468,6 +1505,8 @@ export namespace Prisma {
       isOnline: boolean
       last_seen: string
       role: $Enums.Role
+      premium: $Enums.Premium
+      premium_until: Date
       isBlocked: boolean
       blocked_users: string[]
     }, ExtArgs["result"]["user"]>
@@ -1908,6 +1947,8 @@ export namespace Prisma {
     readonly isOnline: FieldRef<"User", 'Boolean'>
     readonly last_seen: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly premium: FieldRef<"User", 'Premium'>
+    readonly premium_until: FieldRef<"User", 'DateTime'>
     readonly isBlocked: FieldRef<"User", 'Boolean'>
     readonly blocked_users: FieldRef<"User", 'String[]'>
   }
@@ -4647,6 +4688,8 @@ export namespace Prisma {
     isOnline: 'isOnline',
     last_seen: 'last_seen',
     role: 'role',
+    premium: 'premium',
+    premium_until: 'premium_until',
     isBlocked: 'isBlocked',
     blocked_users: 'blocked_users'
   };
@@ -4744,6 +4787,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Premium'
+   */
+  export type EnumPremiumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Premium'>
+    
+
+
+  /**
+   * Reference to a field of type 'Premium[]'
+   */
+  export type ListEnumPremiumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Premium[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -4789,6 +4846,8 @@ export namespace Prisma {
     isOnline?: BoolFilter<"User"> | boolean
     last_seen?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    premium?: EnumPremiumFilter<"User"> | $Enums.Premium
+    premium_until?: DateTimeFilter<"User"> | Date | string
     isBlocked?: BoolFilter<"User"> | boolean
     blocked_users?: StringNullableListFilter<"User">
     sended_messages?: MessageListRelationFilter
@@ -4809,6 +4868,8 @@ export namespace Prisma {
     isOnline?: SortOrder
     last_seen?: SortOrder
     role?: SortOrder
+    premium?: SortOrder
+    premium_until?: SortOrder
     isBlocked?: SortOrder
     blocked_users?: SortOrder
     sended_messages?: MessageOrderByRelationAggregateInput
@@ -4832,6 +4893,8 @@ export namespace Prisma {
     isOnline?: BoolFilter<"User"> | boolean
     last_seen?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    premium?: EnumPremiumFilter<"User"> | $Enums.Premium
+    premium_until?: DateTimeFilter<"User"> | Date | string
     isBlocked?: BoolFilter<"User"> | boolean
     blocked_users?: StringNullableListFilter<"User">
     sended_messages?: MessageListRelationFilter
@@ -4852,6 +4915,8 @@ export namespace Prisma {
     isOnline?: SortOrder
     last_seen?: SortOrder
     role?: SortOrder
+    premium?: SortOrder
+    premium_until?: SortOrder
     isBlocked?: SortOrder
     blocked_users?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -4874,6 +4939,8 @@ export namespace Prisma {
     isOnline?: BoolWithAggregatesFilter<"User"> | boolean
     last_seen?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    premium?: EnumPremiumWithAggregatesFilter<"User"> | $Enums.Premium
+    premium_until?: DateTimeWithAggregatesFilter<"User"> | Date | string
     isBlocked?: BoolWithAggregatesFilter<"User"> | boolean
     blocked_users?: StringNullableListFilter<"User">
   }
@@ -5027,6 +5094,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
@@ -5047,6 +5116,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
@@ -5067,6 +5138,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
@@ -5087,6 +5160,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput
@@ -5107,6 +5182,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
   }
@@ -5123,6 +5200,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
   }
@@ -5139,6 +5218,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
   }
@@ -5317,6 +5398,24 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type EnumPremiumFilter<$PrismaModel = never> = {
+    equals?: $Enums.Premium | EnumPremiumFieldRefInput<$PrismaModel>
+    in?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPremiumFilter<$PrismaModel> | $Enums.Premium
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -5362,6 +5461,8 @@ export namespace Prisma {
     isOnline?: SortOrder
     last_seen?: SortOrder
     role?: SortOrder
+    premium?: SortOrder
+    premium_until?: SortOrder
     isBlocked?: SortOrder
     blocked_users?: SortOrder
   }
@@ -5378,6 +5479,8 @@ export namespace Prisma {
     isOnline?: SortOrder
     last_seen?: SortOrder
     role?: SortOrder
+    premium?: SortOrder
+    premium_until?: SortOrder
     isBlocked?: SortOrder
   }
 
@@ -5393,6 +5496,8 @@ export namespace Prisma {
     isOnline?: SortOrder
     last_seen?: SortOrder
     role?: SortOrder
+    premium?: SortOrder
+    premium_until?: SortOrder
     isBlocked?: SortOrder
   }
 
@@ -5450,7 +5555,17 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
+  export type EnumPremiumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Premium | EnumPremiumFieldRefInput<$PrismaModel>
+    in?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPremiumWithAggregatesFilter<$PrismaModel> | $Enums.Premium
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPremiumFilter<$PrismaModel>
+    _max?: NestedEnumPremiumFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5458,7 +5573,10 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -5485,20 +5603,6 @@ export namespace Prisma {
     chat_user_one_id?: SortOrder
     chat_user_two_id?: SortOrder
     created_at?: SortOrder
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type ChatScalarRelationFilter = {
@@ -5616,6 +5720,14 @@ export namespace Prisma {
 
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
+  }
+
+  export type EnumPremiumFieldUpdateOperationsInput = {
+    set?: $Enums.Premium
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type UserUpdateblocked_usersInput = {
@@ -5761,10 +5873,6 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type UserUpdateOneRequiredWithoutMy_chatsNestedInput = {
     create?: XOR<UserCreateWithoutMy_chatsInput, UserUncheckedCreateWithoutMy_chatsInput>
     connectOrCreate?: UserCreateOrConnectWithoutMy_chatsInput
@@ -5891,6 +5999,24 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedEnumPremiumFilter<$PrismaModel = never> = {
+    equals?: $Enums.Premium | EnumPremiumFieldRefInput<$PrismaModel>
+    in?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPremiumFilter<$PrismaModel> | $Enums.Premium
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -5965,15 +6091,14 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  export type NestedEnumPremiumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Premium | EnumPremiumFieldRefInput<$PrismaModel>
+    in?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Premium[] | ListEnumPremiumFieldRefInput<$PrismaModel>
+    not?: NestedEnumPremiumWithAggregatesFilter<$PrismaModel> | $Enums.Premium
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPremiumFilter<$PrismaModel>
+    _max?: NestedEnumPremiumFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -6203,6 +6328,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
@@ -6222,6 +6349,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
@@ -6246,6 +6375,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
@@ -6265,6 +6396,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
@@ -6332,6 +6465,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
@@ -6351,6 +6486,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput
@@ -6381,6 +6518,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
@@ -6400,6 +6539,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput
@@ -6454,6 +6595,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     received_messages?: MessageCreateNestedManyWithoutReceived_byInput
@@ -6473,6 +6616,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     received_messages?: MessageUncheckedCreateNestedManyWithoutReceived_byInput
@@ -6497,6 +6642,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageCreateNestedManyWithoutSended_byInput
@@ -6516,6 +6663,8 @@ export namespace Prisma {
     isOnline?: boolean
     last_seen?: string
     role?: $Enums.Role
+    premium?: $Enums.Premium
+    premium_until?: Date | string
     isBlocked?: boolean
     blocked_users?: UserCreateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedCreateNestedManyWithoutSended_byInput
@@ -6576,6 +6725,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     received_messages?: MessageUpdateManyWithoutReceived_byNestedInput
@@ -6595,6 +6746,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     received_messages?: MessageUncheckedUpdateManyWithoutReceived_byNestedInput
@@ -6625,6 +6778,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUpdateManyWithoutSended_byNestedInput
@@ -6644,6 +6799,8 @@ export namespace Prisma {
     isOnline?: BoolFieldUpdateOperationsInput | boolean
     last_seen?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    premium?: EnumPremiumFieldUpdateOperationsInput | $Enums.Premium
+    premium_until?: DateTimeFieldUpdateOperationsInput | Date | string
     isBlocked?: BoolFieldUpdateOperationsInput | boolean
     blocked_users?: UserUpdateblocked_usersInput | string[]
     sended_messages?: MessageUncheckedUpdateManyWithoutSended_byNestedInput

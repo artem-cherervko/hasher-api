@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.9.0
+ * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.9.0",
+  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -132,6 +132,8 @@ exports.Prisma.UserScalarFieldEnum = {
   isOnline: 'isOnline',
   last_seen: 'last_seen',
   role: 'role',
+  premium: 'premium',
+  premium_until: 'premium_until',
   isBlocked: 'isBlocked',
   blocked_users: 'blocked_users'
 };
@@ -173,7 +175,15 @@ exports.Role = exports.$Enums.Role = {
   dev: 'dev',
   admin: 'admin',
   helper: 'helper',
+  verified: 'verified',
   user: 'user'
+};
+
+exports.Premium = exports.$Enums.Premium = {
+  hasher_royal: 'hasher_royal',
+  hasher_gold: 'hasher_gold',
+  hasher_enterprise: 'hasher_enterprise',
+  none: 'none'
 };
 
 exports.Prisma.ModelName = {

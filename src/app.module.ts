@@ -7,6 +7,7 @@ import { RedisModule } from './redis/redis.module';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PremiumModule } from './premium/premium.module';
 
 @Module({
 	imports: [
@@ -16,6 +17,7 @@ import { AppService } from './app.service';
 		ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
 		RedisModule,
 		AuthModule,
+		PremiumModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

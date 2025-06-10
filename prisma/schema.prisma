@@ -21,7 +21,9 @@ model User {
   isOnline  Boolean @default(false)
   last_seen String  @default("")
 
-  role Role @default(user)
+  role          Role     @default(user)
+  premium       Premium  @default(none)
+  premium_until DateTime @default(now())
 
   isBlocked     Boolean  @default(false)
   blocked_users String[]
@@ -74,7 +76,17 @@ enum Role {
   dev
   admin
   helper
+  verified
   user
 
   @@map("role")
+}
+
+enum Premium {
+  hasher_royal
+  hasher_gold
+  hasher_enterprise
+  none
+
+  @@map("premium")
 }
