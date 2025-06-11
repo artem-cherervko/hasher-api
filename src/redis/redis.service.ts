@@ -21,6 +21,21 @@ export class RedisService {
 		}
 	}
 
+	async addWithExpiry(key: string, value: any, expirySeconds: number) {
+		try {
+			await this.redisService.set(key, value, 'EX', expirySeconds);
+			return {
+				status: HttpStatus.OK,
+				message: `Key with value ${value} added with expiry ${expirySeconds}s`,
+			};
+		} catch (e) {
+			throw new HttpException(
+				`Error while adding data to redis: ${e}`,
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
+	}
+
 	async delete(key: string) {
 		try {
 			await this.redisService.del(key);

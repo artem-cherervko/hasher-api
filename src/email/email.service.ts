@@ -42,14 +42,15 @@ export class EmailService {
 	async sendOAuth(data: OAuthDTO) {
 		try {
 			const code = await generateCode();
-			await this.redis.add(
+			await this.redis.addWithExpiry(
 				`${process.env.REDIS_PREFIX}:${data.email}`,
 				String(code),
+				60 * 5,
 			);
 			await this.emailService.sendMail({
 				to: data.email,
 				subject: 'OAuth code!',
-				html: `<h1>OAuth code!</h1> <p>Code: ${code}</p>`,
+				html: `<h1>OAuth code!</h1> <p>Code: ${code}</p> <p>This code will expire in 5 minutes!</p>`,
 			});
 			return {
 				status: HttpStatus.OK,

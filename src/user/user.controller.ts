@@ -74,24 +74,23 @@ export class UserController {
 	@Patch('updateUser')
 	async updateUser(
 		@Body() user_data: UpdateUserDto,
-		@Query() data: { uin: string; password: string },
+		@Query() data: { uin: string },
 	) {
 		const user = await this.userService.findUserByUIN(data.uin);
 		if (!user) {
 			throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 		} else {
-			const password_verify = await argon2.verify(user.password, data.password);
-			if (!password_verify)
-				throw new HttpException('Password not valid!', HttpStatus.BAD_REQUEST);
-			else {
-				try {
-					return await this.userService.updateUser(user_data, data.uin);
-				} catch (e) {
-					throw new HttpException(
-						`An error occurred while updating user: ${e}`,
-						HttpStatus.BAD_REQUEST,
-					);
-				}
+			// const password_verify = await argon2.verify(user.password, data.password);
+			// if (!password_verify)
+			// 	throw new HttpException('Password not valid!', HttpStatus.BAD_REQUEST);
+
+			try {
+				return await this.userService.updateUser(user_data, data.uin);
+			} catch (e) {
+				throw new HttpException(
+					`An error occurred while updating user: ${e}`,
+					HttpStatus.BAD_REQUEST,
+				);
 			}
 		}
 	}
