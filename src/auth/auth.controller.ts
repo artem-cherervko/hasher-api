@@ -77,4 +77,9 @@ export class AuthController {
 			return await this.authService.checkOAuth(user.email, code);
 		}
 	}
+
+	@Get('checkUIN')
+	async checkUIN(@Query('uin') uin: string) {
+		return await this.authService.checkUIN(uin);
+	}
 }

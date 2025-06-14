@@ -1,4 +1,12 @@
-import { Body, Controller, Patch, Get, Query, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	Patch,
+	Post,
+	Query,
+	UseGuards,
+} from '@nestjs/common';
 import { ChatsService } from './chats.service';
 import { JwtAuthGuard } from '../auth/guards/jwt.auth';
 
@@ -51,5 +59,11 @@ export class ChatsController {
 		@Query('uin') uin: string,
 	) {
 		return await this.chatsService.readAllMessages(chat_with_uin, uin);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Post('getLastMessage')
+	async getLastMessage(@Body() data: { uin: string; chat_with_uin: string }) {
+		return await this.chatsService.getLastMessage(data);
 	}
 }

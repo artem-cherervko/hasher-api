@@ -321,4 +321,53 @@ export class ChatsService {
 			);
 		}
 	}
+
+	async getLastMessage(data: { uin: string; chat_with_uin: string }) {
+		const [user, user2] = await Promise.all([
+			this.prismaService.user.findUnique({ where: { uin: data.uin } }),
+			this.prismaService.user.findUnique({
+				where: { uin: data.chat_with_uin },
+			}),
+		]);
+
+		if (!user || !user2) {
+			throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+		}
+
+		const chat = await this.prismaService.chat.findFirst({
+			where: {
+				OR: [
+					{ chat_user_one_id: user.id, chat_user_two_id: user2.id },
+					{ chat_user_one_id: user2.id, chat_user_two_id: user.id },
+				],
+			},
+		});
+
+		if (!chat) {
+			throw new HttpException('Chat not found', HttpStatus.NOT_FOUND);
+		}
+
+		const message = this.prismaService.message.findFirst({
+			where: { chat_id: chat.id },
+			orderBy: { created_at: 'desc' },
+			select: {
+				sended_by_id: true,
+				content: true,
+				is_read: true,
+			},
+		});
+		const msg = await message.then((message) => message);
+
+		if (await message.then((msg) => msg?.sended_by_id === user.id)) {
+			return {
+				content: msg?.content,
+				is_read: true,
+			};
+		} else {
+			return {
+				content: msg?.content,
+				is_read: msg?.is_read,
+			};
+		}
+	}
 }

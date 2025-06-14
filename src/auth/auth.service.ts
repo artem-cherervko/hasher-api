@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
-import e, { Request } from 'express';
 import { EmailService } from 'src/email/email.service';
 import { RedisService } from 'src/redis/redis.service';
 
@@ -166,5 +165,23 @@ export class AuthService {
 			};
 		}
 		throw new HttpException('Invalid code', HttpStatus.BAD_REQUEST);
+	}
+
+	async checkUIN(uin: string) {
+		try {
+			const user = await this.prisma.user.findUnique({
+				where: { uin },
+			});
+			if (!user) {
+				throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+			} else {
+				return {
+					status: HttpStatus.OK,
+					message: `UIN ${uin}`,
+				};
+			}
+		} catch (e) {
+			throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
+		}
 	}
 }

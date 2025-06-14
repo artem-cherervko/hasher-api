@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PremiumModule } from './premium/premium.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
 	imports: [
@@ -18,6 +19,7 @@ import { PremiumModule } from './premium/premium.module';
 		RedisModule,
 		AuthModule,
 		PremiumModule,
+		ImagesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
