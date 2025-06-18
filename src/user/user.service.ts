@@ -188,4 +188,27 @@ export class UserService {
 			throw new HttpException(String(e), HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	async getLastSeen(uin: string) {
+		try {
+			const user = await this.prisma.user.findUnique({ where: { uin } });
+			if (!user) {
+				throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+			} else {
+				if (user.isOnline) {
+					return {
+						status: 200,
+						lastSeen: 'Online',
+					};
+				} else {
+					return {
+						status: 200,
+						lastSeen: user.last_seen,
+					};
+				}
+			}
+		} catch (e) {
+			throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

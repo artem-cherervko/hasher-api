@@ -110,4 +110,17 @@ export class UserController {
 	async findUser(@Query() data: { user_name: string | null }) {
 		return await this.userService.findUser(data.user_name);
 	}
+
+	@UseGuards(JwtAuthGuard)
+	@Get('lastSeen')
+	async lastSeen(@Query() data: { uin: string }) {
+		if (!data) {
+			throw new HttpException(
+				'Please, provide valid UIN!',
+				HttpStatus.BAD_REQUEST,
+			);
+		} else {
+			return await this.userService.getLastSeen(data.uin);
+		}
+	}
 }
