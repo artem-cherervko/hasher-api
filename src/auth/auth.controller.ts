@@ -19,16 +19,14 @@ export class AuthController {
 	) {}
 
 	@Post('login')
-	async login(@Body() uin: string, @Res({ passthrough: true }) res: Response) {
+	async login(
+		@Body() data: { uin: string; password: string },
+		@Res({ passthrough: true }) res: Response,
+	) {
 		res.clearCookie('u');
 		res.clearCookie('r');
 
-		const user = await this.userService.findUserByUIN(String(uin['uin']));
-		if (!user) {
-			throw new UnauthorizedException('User not found');
-		} else {
-			return await this.authService.generateTokens(user.uin);
-		}
+		return await this.authService.login(data.uin, data.password);
 	}
 
 	@Post('logout')

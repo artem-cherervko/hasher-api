@@ -221,4 +221,31 @@ export class ChatsGateway
 			}
 		}
 	}
+
+	@SubscribeMessage('typingMessage')
+	async typingMessage(
+		@Body() data: { chat_with_uin: string },
+		@ConnectedSocket() client: Socket,
+	) {
+		const user = await this.userService.findUserByUIN(data.chat_with_uin);
+
+		if (user) {
+			if (user.isOnline !== true) {
+				client.emit('typing', {
+					status: 400,
+					message: 'Error! User not online!',
+				});
+			} else {
+				this.server.to(data.chat_with_uin).emit('typing', {
+					status: 200,
+					message: 'I`m typing!',
+				});
+			}
+		} else {
+			client.emit('typing', {
+				status: 400,
+				message: 'Error! User not found!',
+			});
+		}
+	}
 }
