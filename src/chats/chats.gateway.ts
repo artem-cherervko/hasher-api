@@ -16,7 +16,7 @@ import { NewMessageDTO } from './dto/chats.dto';
 import { UserService } from '../user/user.service';
 import { getDate } from '../configs/dayjs';
 
-@WebSocketGateway(3002, {
+@WebSocketGateway({
 	cors: {
 		origin: process.env.ORIGIN,
 	},

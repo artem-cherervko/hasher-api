@@ -236,8 +236,18 @@ export class ChatsService {
 						received_by: true,
 					},
 				},
+				images: {
+					include: {
+						sender: true,
+					},
+				},
 			},
 		});
+		// chats.map((image) => {
+		// 	image.images.map((url) => {
+		// 		console.log(url.imageUrl);
+		// 	});
+		// });
 
 		if (!chats || chats.length === 0) {
 			throw new HttpException('No chats found', HttpStatus.NOT_FOUND);
@@ -256,6 +266,15 @@ export class ChatsService {
 						is_edited: message.is_edited,
 						created_at: dayjs(message.created_at).format('YYYY.MM.DD HH:mm:ss'),
 						updated_at: dayjs(message.updated_at).format('YYYY.MM.DD HH:mm:ss'),
+					})),
+				),
+				images: await Promise.all(
+					chat.images.map((image) => ({
+						key: image.key,
+						sender: image.sender.uin,
+						image_url: image.imageUrl,
+						sent_at: image.sent_at,
+						text: image.messageKey,
 					})),
 				),
 			})),

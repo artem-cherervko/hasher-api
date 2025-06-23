@@ -34,6 +34,8 @@ model User {
   my_chats       Chat[] @relation("ChatUserOne")
   received_chats Chat[] @relation("ChatUserTwo")
 
+  my_images Image[] @relation("Sender")
+
   @@map("user")
 }
 
@@ -47,6 +49,7 @@ model Chat {
   chat_user_two_id String
 
   messages   Message[] @relation("MessagesToChat")
+  images     Image[]   @relation("ImageToChat")
   created_at DateTime  @default(now())
 
   @@map("chat")
@@ -70,6 +73,23 @@ model Message {
   updated_at DateTime @updatedAt
 
   @@map("message")
+}
+
+model Image {
+  key      String   @id
+  imageUrl String   @unique
+  sent_at  DateTime @default(now())
+
+  chat   Chat   @relation("ImageToChat", fields: [chatId], references: [id])
+  chatId String
+
+  sender   User   @relation("Sender", fields: [senderId], references: [id])
+  senderId String
+
+  contentType String
+  messageKey  String?
+
+  @@map("image")
 }
 
 enum Role {
