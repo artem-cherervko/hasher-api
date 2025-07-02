@@ -2002,6 +2002,15 @@
   dependencies:
     "@prisma/debug" "6.10.1"
 
+"@react-email/render@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@react-email/render/-/render-1.1.2.tgz#49a3d0ec3c650bd280f0614359f25de907c9e0da"
+  integrity sha512-RnRehYN3v9gVlNMehHPHhyp2RQo7+pSkHDtXPvg3s0GbzM9SQMW4Qrf8GRNvtpLC4gsI+Wt0VatNRUFqjvevbw==
+  dependencies:
+    html-to-text "^9.0.5"
+    prettier "^3.5.3"
+    react-promise-suspense "^0.3.4"
+
 "@sec-ant/readable-stream@^0.4.1":
   version "0.4.1"
   resolved "https://registry.npmjs.org/@sec-ant/readable-stream/-/readable-stream-0.4.1.tgz"
@@ -4922,6 +4931,11 @@ external-editor@^3.1.0:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
+fast-deep-equal@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
+  integrity sha512-bCK/2Z4zLidyB4ReuIsvALH6w31YfAQDmXMqMx6FyfHqvBxtjC0eRumeSu4Bs3XtXwpyIywtSTrVT99BxY1f9w==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz"
@@ -5435,7 +5449,7 @@ html-minifier@^4.0.0:
     relateurl "^0.2.7"
     uglify-js "^3.5.1"
 
-html-to-text@9.0.5:
+html-to-text@9.0.5, html-to-text@^9.0.5:
   version "9.0.5"
   resolved "https://registry.npmjs.org/html-to-text/-/html-to-text-9.0.5.tgz"
   integrity sha512-qY60FjREgVZL03vJU6IfMV4GDjGBIoOyvuFdpBDIX9yTlDw0TjxVBQp+P8NvpdIXNJvfWBTNul7fsAQJq2FNpg==
@@ -7560,6 +7574,11 @@ prettier@^3.4.2:
   resolved "https://registry.npmjs.org/prettier/-/prettier-3.5.3.tgz"
   integrity sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==
 
+prettier@^3.5.3:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.6.2.tgz#ccda02a1003ebbb2bfda6f83a074978f608b9393"
+  integrity sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==
+
 pretty-format@^29.0.0, pretty-format@^29.7.0:
   version "29.7.0"
   resolved "https://registry.npmjs.org/pretty-format/-/pretty-format-29.7.0.tgz"
@@ -7799,6 +7818,13 @@ react-is@^18.0.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.3.1.tgz"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
+react-promise-suspense@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/react-promise-suspense/-/react-promise-suspense-0.3.4.tgz#05d19a75703d71374674840056cfef2fcd38809d"
+  integrity sha512-I42jl7L3Ze6kZaq+7zXWSunBa3b1on5yfvUW6Eo/3fFOj6dZ5Bqmcd264nJbTK/gn1HjjILAjSwnZbV4RpSaNQ==
+  dependencies:
+    fast-deep-equal "^2.0.1"
+
 readable-stream@^2.2.2:
   version "2.3.8"
   resolved "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz"
@@ -7869,6 +7895,13 @@ require-from-string@^2.0.2:
   version "2.0.2"
   resolved "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz"
   integrity sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==
+
+resend@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/resend/-/resend-4.6.0.tgz#e0e66fd225b0a0b6729807ec0cf83f2a5f6be3f2"
+  integrity sha512-D5T2I82FvEUYFlrHzaDvVtr5ADHdhuoLaXgLFGABKyNtQgPWIuz0Vp2L2Evx779qjK37aF4kcw1yXJDHhA2JnQ==
+  dependencies:
+    "@react-email/render" "1.1.2"
 
 resolve-alpn@^1.2.0:
   version "1.2.1"
