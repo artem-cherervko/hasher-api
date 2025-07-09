@@ -1,8 +1,8 @@
 {
   "name": "hasher-api",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "0.2.0",
+  "description": "API for 'Hasher-Chat'",
+  "author": "@hasher_dev",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

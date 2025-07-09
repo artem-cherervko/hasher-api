@@ -180,7 +180,7 @@ export class AuthService {
 					message: `UIN ${uin}`,
 				};
 			}
-		} catch (e) {
+		} catch {
 			throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
 		}
 	}

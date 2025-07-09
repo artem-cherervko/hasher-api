@@ -62,7 +62,7 @@ export class ImagesService {
 
 				const key = `images/${GenerateKey()}.${extension}`;
 				const putCommand = new PutObjectCommand({
-					Bucket: 'the-killa',
+					Bucket: process.env.BUCKET_NAME,
 					Key: key,
 					Body: compressedBuffer,
 					ContentType: contentType,
@@ -127,7 +127,7 @@ export class ImagesService {
 		if (image) {
 			try {
 				const deleteCommand = new DeleteObjectCommand({
-					Bucket: 'the-killa',
+					Bucket: process.env.BUCKET_NAME,
 					Key: data.key,
 				});
 				await this.sdk.send(deleteCommand);
